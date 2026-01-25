@@ -5,6 +5,12 @@ import pygame
 import cv2
 
 pygame.init()
+pygame.mixer.init()
+
+#load and play bgmusic
+pygame.mixer.music.load("sound/intro_music.mp3")
+pygame.mixer.music.set_volume(0.25)
+pygame.mixer.music.play(0)
 
 #load word list from file
 with open("words.txt") as f:
@@ -93,7 +99,7 @@ while begin_screen:
     text_rect = text.get_rect(center=button_rect.center)
     screen.blit(text, text_rect)
     
-    pygame.display.flip()
+    pygame.display.flip() #basically updates the screen
     
     # Handle events
     for event in pygame.event.get():
@@ -131,6 +137,41 @@ if button_clicked:
         timer.tick(fps_video)
     
     video.release()
+
+    # Load and display instructions image with continue button
+    instructions_img = pygame.image.load("instructions.png")
+    instructions_img = pygame.transform.scale(instructions_img, (WIDTH, HEIGHT))
+    
+    # Continue button setup
+    continue_button_width = 220
+    continue_button_height = 60
+    continue_button_x = WIDTH - continue_button_width - 40  # bottom right
+    continue_button_y = HEIGHT - continue_button_height - 40
+    continue_button_rect = pygame.Rect(continue_button_x, continue_button_y, continue_button_width, continue_button_height)
+    
+    waiting_for_input = True
+    while waiting_for_input:
+        timer.tick(fps)
+        
+        screen.blit(instructions_img, (0, 0))
+        
+        # Draw continue button
+        pygame.draw.rect(screen, (150, 90, 40), continue_button_rect, border_radius=12)
+        pygame.draw.rect(screen, (255, 255, 255), continue_button_rect, 2, border_radius=12)
+        text = font.render("CONTINUE", True, (255, 255, 255))
+        text_rect = text.get_rect(center=continue_button_rect.center)
+        screen.blit(text, text_rect)
+        
+        pygame.display.flip()
+
+         # Handle events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                waiting_for_input = False
+                running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if continue_button_rect.collidepoint(event.pos):
+                    waiting_for_input = False
 
 # Main game loop
 running = True

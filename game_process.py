@@ -1,0 +1,1 @@
+#this should have the mechanics of the game process like the typing and stuff cause I didn't want it to all be crowded in typing_game.py which has the startof the game but not the actual game code itself so if you guys can write the game code here and then just call it from typing_game.py that would be great
