@@ -1,7 +1,10 @@
 import random
 import time
 import pygame
-from create_words import words
+
+# Load word list from file
+with open("words.txt") as f:
+    words = [w.strip() for w in f.readlines()]
 
 # game settings
 lives = 3
