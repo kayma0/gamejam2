@@ -176,10 +176,11 @@ if button_clicked:
     # Instructions screen with continue button
     instructions_img = pygame.image.load("media/instructions.png").convert()
     instructions_img = pygame.transform.scale(instructions_img, (WIDTH, HEIGHT))
-
+    
+    # Continue button setup at bottom right of page
     continue_button_width = 220
     continue_button_height = 60
-    continue_button_x = WIDTH - continue_button_width - 40
+    continue_button_x = WIDTH - continue_button_width - 40  
     continue_button_y = HEIGHT - continue_button_height - 40
     continue_button_rect = pygame.Rect(
         continue_button_x, continue_button_y, continue_button_width, continue_button_height
@@ -213,7 +214,6 @@ if button_clicked:
         pygame.quit()
         raise SystemExit
 
-    # hand off to gameplay
     run_game(difficulty)
 
 pygame.quit()
