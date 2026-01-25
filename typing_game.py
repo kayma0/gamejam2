@@ -10,7 +10,7 @@ pygame.mixer.init()
 #load and play bgmusic
 pygame.mixer.music.load("sound/intro_music.mp3")
 pygame.mixer.music.set_volume(0.25)
-pygame.mixer.music.play(0)
+pygame.mixer.music.play(-1)
 
 #load word list from file
 with open("words.txt") as f:
@@ -19,8 +19,8 @@ with open("words.txt") as f:
 len_indexes = []
 length = 1
 wordList.sort(key=len)
-intro_vid = "intro.mp4"
-outro_vid = "outro.mp4" 
+intro_vid = "media/intro.mp4"
+outro_vid = "media/outro.mp4" 
 
 for i in range(len(wordList)):
     if len(wordList[i]) > length:
@@ -139,7 +139,7 @@ if button_clicked:
     video.release()
 
     # Load and display instructions image with continue button
-    instructions_img = pygame.image.load("instructions.png")
+    instructions_img = pygame.image.load("media/instructions.png")
     instructions_img = pygame.transform.scale(instructions_img, (WIDTH, HEIGHT))
     
     # Continue button setup
