@@ -39,6 +39,7 @@ video_width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
 video_height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
 fps_video = video.get(cv2.CAP_PROP_FPS)
 
+last_frame = None
 playing_video = True
 while playing_video:
     ret, frame = video.read()
@@ -52,6 +53,7 @@ while playing_video:
     
     # Scale to fit screen
     surf = pygame.transform.scale(frame, (WIDTH, HEIGHT))
+    last_frame = surf 
     screen.blit(surf, (0, 0))
     pygame.display.flip()
     
@@ -64,6 +66,71 @@ while playing_video:
     timer.tick(fps_video)
 
 video.release()
+
+# Show BEGIN button on last frame of intro video
+font = pygame.font.SysFont("arial", 48)
+button_width = 200
+button_height = 60
+button_x = (WIDTH - button_width) // 2
+button_y = (HEIGHT - button_height) - 80
+button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+button_clicked = False
+
+begin_screen = True
+while begin_screen:
+    timer.tick(fps)
+    
+    # Draw last frame of intro video
+    if last_frame:
+        screen.blit(last_frame, (0, 0))
+    else:
+        screen.fill((0, 0, 0))
+    
+    # Draw button
+    pygame.draw.rect(screen, (150, 90, 40), button_rect, border_radius=12)
+    pygame.draw.rect(screen, (255, 255, 255), button_rect, 2, border_radius=12)
+    text = font.render("BEGIN", True, (0, 0, 0))
+    text_rect = text.get_rect(center=button_rect.center)
+    screen.blit(text, text_rect)
+    
+    pygame.display.flip()
+    
+    # Handle events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            begin_screen = False
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if button_rect.collidepoint(event.pos):
+                button_clicked = True
+                begin_screen = False
+
+# Play outro video if button was clicked
+if button_clicked:
+    video = cv2.VideoCapture(outro_vid)
+    fps_video = video.get(cv2.CAP_PROP_FPS)
+    
+    playing_video = True
+    while playing_video:
+        ret, frame = video.read()
+        if not ret:
+            playing_video = False
+            break
+        
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+        
+        surf = pygame.transform.scale(frame, (WIDTH, HEIGHT))
+        screen.blit(surf, (0, 0))
+        pygame.display.flip()
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                playing_video = False
+        
+        timer.tick(fps_video)
+    
+    video.release()
 
 # Main game loop
 running = True
