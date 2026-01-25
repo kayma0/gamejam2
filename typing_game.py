@@ -4,6 +4,8 @@ import random
 import pygame
 import cv2
 
+from game_process import run_game
+
 pygame.init()
 pygame.mixer.init()
 
@@ -173,18 +175,7 @@ if button_clicked:
                 if continue_button_rect.collidepoint(event.pos):
                     waiting_for_input = False
 
-# Main game loop
-running = True
-while running:
-    timer.tick(fps)
-    # Handle events
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-            
-    pygame.display.flip()
-
-
-#ends game properly
+# hand off to gameplay
+run_game()
 pygame.quit()
 
