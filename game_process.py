@@ -36,7 +36,7 @@ def load_background(path):
     except Exception:
         return None
 
-BACKGROUND_IMAGE = load_background("media/typing_bg.png")
+BACKGROUND_IMAGE = load_background("media/gamepage.png")
 
 header_font = pygame.font.SysFont("arial", 50, bold=True)
 pause_font = pygame.font.SysFont("arial", 38, bold=True)
@@ -65,17 +65,38 @@ woosh = safe_sound("sound/confirm.mp3", 0.25)
 wrong = safe_sound("sound/error.mp3", 0.25)
 
 DIFFICULTY_RULES = {
-    "easy": {"lives": 3, "timer_seconds": 60, "speed_range": (3, 4), "len_filter": (1, 5)},
-    "medium": {"lives": 2, "timer_seconds": 60, "speed_range": (3, 5), "len_filter": None},
-    "hard": {"lives": 0, "timer_seconds": 60, "speed_range": (4.5, 6.5), "len_filter": None},
+    "easy": {
+        "lives": 3,
+        "timer_seconds": 60,
+        "speed_range": (3, 4),
+        "len_filter": (1, 5),  # five letters or less
+    },
+    "medium": {
+        "lives": 2,
+        "timer_seconds": 60,
+        "speed_range": (3, 5),
+        "len_filter": None,  
+    },
+    "hard": {
+        "lives": 0, 
+        "timer_seconds": 60,
+        "speed_range": (4.5, 6.5),
+        "len_filter": None,
+    },
 }
 
 def filter_words_by_length(bounds):
     if not bounds:
         return WORD_LIST
     lo, hi = bounds
-    return [w for w in WORD_LIST if lo <= len(w) <= hi]
+    keep_words = []
+    for word in WORD_LIST:
+        if lo <= len(word) <= hi:
+            keep_words.append(word)
+    return keep_words
 
+
+# keep words sorted 
 def build_len_indexes(words_src):
     return sorted(words_src, key=len)
 
@@ -87,6 +108,7 @@ class Word:
         self.x_pos = x_pos
 
     def draw(self, active_string):
+        # draw the word and paint part you typed
         screen.blit(font.render(self.text, True, TEXT_LIGHT), (self.x_pos, self.y_pos))
         act_len = len(active_string)
         if active_string == self.text[:act_len]:
@@ -134,13 +156,16 @@ def draw_screen(lives, score, active_string, high_score, time_left):
     return pause_btn.clicked
 
 def draw_pause():
-    overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
-    pygame.draw.rect(overlay, (0, 0, 0, 180), [0, 0, WIDTH, HEIGHT], 0)
-
-    box_x, box_y = 180, 140
-    box_w, box_h = WIDTH - 360, 240
-    pygame.draw.rect(overlay, (0, 0, 0, 140), [box_x, box_y, box_w, box_h], 0, 5)
-    pygame.draw.rect(overlay, ACCENT + (220,), [box_x, box_y, box_w, box_h], 5, 5)
+    # make sure the menu does not block the whole screen
+    surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+  
+    pygame.draw.rect(surface, (0, 0, 0, 180), [0, 0, WIDTH, HEIGHT], 0)
+    box_x = 180
+    box_y = 140
+    box_w = WIDTH - 360
+    box_h = 240
+    pygame.draw.rect(surface, (0, 0, 0, 140), [box_x, box_y, box_w, box_h], 0, 5)
+    pygame.draw.rect(surface, ACCENT + (220,), [box_x, box_y, box_w, box_h], 5, 5)
 
     overlay.blit(header_font.render("MENU", True, TEXT_LIGHT), (box_x + 10, box_y + 10))
 
@@ -274,15 +299,19 @@ def run_game(difficulty="easy"):
 
             if event.type == pygame.KEYDOWN:
                 if not paused:
-                    if len(event.unicode) == 1 and event.unicode.isalnum():
+                    # allow letters numbers and hyphens while typing
+                    if len(event.unicode) == 1 and (event.unicode.isalnum() or event.unicode == "-"):
                         active_string += event.unicode
                         if click:
                             click.play()
+
                     if event.key == pygame.K_BACKSPACE and len(active_string) > 0:
                         active_string = active_string[:-1]
+
                     if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         submit = active_string
                         active_string = ""
+                        
                 if event.key == pygame.K_ESCAPE:
                     paused = not paused
 
