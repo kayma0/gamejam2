@@ -75,19 +75,19 @@ DIFFICULTY_RULES = {
     "easy": {
         "lives": 3,
         "timer_seconds": 60,
-        "speed_range": (3, 4),
+        "speed_range": (2, 4),
         "len_filter": (1, 5),  # five letters or less
     },
     "medium": {
         "lives": 2,
         "timer_seconds": 60,
-        "speed_range": (3, 4),
+        "speed_range": (2, 4),
         "len_filter": None,  # mix all words
     },
     "hard": {
-        "lives": 0,  # no extra lives
+        "lives": 1,  # one life only
         "timer_seconds": 60,
-        "speed_range": (4, 6),
+        "speed_range": (2, 5),
         "len_filter": None,
     },
 }
@@ -120,7 +120,7 @@ class Word:
 
     def draw(self, active_string):
         # draw the word and paint the part you typed
-        screen.blit(font.render(self.text, True, TEXT_LIGHT), (self.x_pos, self.y_pos))
+        screen.blit(font.render(self.text, True, (101, 67, 33)), (self.x_pos, self.y_pos)) 
         act_len = len(active_string)
         if active_string == self.text[:act_len]:
             screen.blit(font.render(active_string, True, ACCENT), (self.x_pos, self.y_pos))
@@ -163,7 +163,7 @@ def draw_screen(lives, score, active_string, high_score, time_left):
 
     # top row showing lives high score and timer
     screen.blit(banner_font.render(f"Lives: {lives}", True, TEXT_LIGHT), (20, 10))
-    screen.blit(banner_font.render(f"Best: {high_score}", True, TEXT_LIGHT), (WIDTH - 300, 40))
+    screen.blit(banner_font.render(f"Best: {high_score}", True, TEXT_LIGHT), (WIDTH - 300, 10))
     screen.blit(banner_font.render(f"Time: {int(time_left)}s", True, TEXT_LIGHT), (WIDTH // 2 - 80, 10))
 
     # bottom bar shows  input on the left and score on the right

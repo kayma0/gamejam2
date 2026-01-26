@@ -13,7 +13,7 @@ def level_select(screen, clock, WIDTH, HEIGHT):
 
     # Clickable hitboxes (tweak these if the circles don’t line up perfectly)
     y_circle = int(HEIGHT * 0.36)
-    radius = int(min(WIDTH, HEIGHT) * 0.10)
+    radius = int(min(WIDTH, HEIGHT) * 0.25)
 
     easy_center = (int(WIDTH * 0.20), y_circle)
     medium_center = (int(WIDTH * 0.50), y_circle)
