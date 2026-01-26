@@ -81,13 +81,13 @@ DIFFICULTY_RULES = {
     "medium": {
         "lives": 2,
         "timer_seconds": 60,
-        "speed_range": (3, 4),
+        "speed_range": (3, 5),
         "len_filter": None,  # mix all words
     },
     "hard": {
         "lives": 0,  # no extra lives
         "timer_seconds": 60,
-        "speed_range": (4, 6),
+        "speed_range": (5, 7),
         "len_filter": None,
     },
 }
@@ -163,7 +163,7 @@ def draw_screen(lives, score, active_string, high_score, time_left):
 
     # top row showing lives high score and timer
     screen.blit(banner_font.render(f"Lives: {lives}", True, TEXT_LIGHT), (20, 10))
-    screen.blit(banner_font.render(f"Best: {high_score}", True, TEXT_LIGHT), (WIDTH - 300, 40))
+    screen.blit(banner_font.render(f"Best: {high_score}", True, TEXT_LIGHT), (WIDTH - 300, 10))
     screen.blit(banner_font.render(f"Time: {int(time_left)}s", True, TEXT_LIGHT), (WIDTH // 2 - 80, 10))
 
     # bottom bar shows  input on the left and score on the right
@@ -342,4 +342,3 @@ def run_game(difficulty="easy"):
             time_left = float(timer_limit)
 
         pygame.display.flip()
-    pygame.quit()
