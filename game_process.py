@@ -38,7 +38,7 @@ def load_background(path):
     except Exception:
         return None
 
-BACKGROUND_IMAGE = load_background("media/typing_bg.png")
+BACKGROUND_IMAGE = load_background("media/gamepage.png")
 
 header_font = pygame.font.SysFont("arial", 50, bold=True)
 pause_font = pygame.font.SysFont("arial", 38, bold=True)
@@ -82,10 +82,10 @@ DIFFICULTY_RULES = {
         "lives": 2,
         "timer_seconds": 60,
         "speed_range": (3, 5),
-        "len_filter": None,  # mix all words
+        "len_filter": None,  
     },
     "hard": {
-        "lives": 0,  # no extra lives
+        "lives": 0, 
         "timer_seconds": 60,
         "speed_range": (4.5, 6.5),
         "len_filter": None,
@@ -105,7 +105,7 @@ def filter_words_by_length(bounds):
     return keep_words
 
 
-# keep words sorted for random choice later
+# keep words sorted 
 def build_len_indexes(words_src):
     sorted_words = sorted(words_src, key=len)
     return sorted_words
@@ -119,14 +119,13 @@ class Word:
         self.x_pos = x_pos
 
     def draw(self, active_string):
-        # draw the word and paint the part you typed
+        # draw the word and paint part you typed
         screen.blit(font.render(self.text, True, TEXT_LIGHT), (self.x_pos, self.y_pos))
         act_len = len(active_string)
         if active_string == self.text[:act_len]:
             screen.blit(font.render(active_string, True, ACCENT), (self.x_pos, self.y_pos))
 
     def update(self):
-        # move the word to the left
         self.x_pos -= self.speed
 
 
@@ -176,7 +175,7 @@ def draw_screen(lives, score, active_string, high_score, time_left):
 def draw_pause():
     # make sure the menu does not block the whole screen
     surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
-    # Add semi-transparent overlay covering entire screen
+  
     pygame.draw.rect(surface, (0, 0, 0, 180), [0, 0, WIDTH, HEIGHT], 0)
     box_x = 180
     box_y = 140
@@ -318,15 +317,19 @@ def run_game(difficulty="easy"):
 
             if event.type == pygame.KEYDOWN:
                 if not paused:
-                    if len(event.unicode) == 1 and event.unicode.isalnum():
+                    # allow letters numbers and hyphens while typing
+                    if len(event.unicode) == 1 and (event.unicode.isalnum() or event.unicode == "-"):
                         active_string += event.unicode
                         if click:
                             click.play()
+
                     if event.key == pygame.K_BACKSPACE and len(active_string) > 0:
                         active_string = active_string[:-1]
+
                     if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         submit = active_string
                         active_string = ""
+                        
                 if event.key == pygame.K_ESCAPE:
                     paused = not paused
 
