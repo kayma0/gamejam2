@@ -176,6 +176,8 @@ def draw_screen(lives, score, active_string, high_score, time_left):
 def draw_pause():
     # make sure the menu does not block the whole screen
     surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+    # Add semi-transparent overlay covering entire screen
+    pygame.draw.rect(surface, (0, 0, 0, 180), [0, 0, WIDTH, HEIGHT], 0)
     box_x = 180
     box_y = 140
     box_w = WIDTH - 360
@@ -290,15 +292,14 @@ def run_game(difficulty="easy"):
         if new_level and not paused:
             word_objects = generate_level(words_src, speed_range, score)
             new_level = False
-        else:
+        elif not paused:
             for w in list(word_objects):
                 w.draw(active_string)
-                if not paused:
-                    w.update()
+                w.update()
                 if w.x_pos < -200:
                     word_objects.remove(w)
                     lives -= 1
-            if not paused and time_left <= 0:
+            if time_left <= 0:
                 lives = -1
         if len(word_objects) <= 0 and not paused:
             new_level = True
