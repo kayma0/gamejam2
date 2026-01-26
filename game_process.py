@@ -23,6 +23,8 @@ def pick_word(words_list, round_num):
 def run_game(difficulty="easy"):
     pygame.init()
     screen = pygame.display.set_mode((width, height))
+    bg_img = pygame.image.load("media/gamepage.png").convert()
+    bg_img = pygame.transform.scale(bg_img, (width, height))
     pygame.display.set_caption("Station X: Codebreak")
     clock = pygame.time.Clock()
 
@@ -116,7 +118,7 @@ def run_game(difficulty="easy"):
             if player_lives <= 0:
                 game_over = True
 
-        screen.fill((245, 242, 235))
+        screen.blit(bg_img, (0, 0))
 
         # lives
         lives_text = label_font.render("Lives:", True, (20, 20, 20))
