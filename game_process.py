@@ -38,7 +38,7 @@ def load_background(path):
     except Exception:
         return None
 
-BACKGROUND_IMAGE = load_background("media/typing_bg.png")
+BACKGROUND_IMAGE = load_background("media/gamepage.png")
 
 header_font = pygame.font.SysFont("arial", 50, bold=True)
 pause_font = pygame.font.SysFont("arial", 38, bold=True)
@@ -82,10 +82,10 @@ DIFFICULTY_RULES = {
         "lives": 2,
         "timer_seconds": 60,
         "speed_range": (3, 5),
-        "len_filter": None,  # mix all words
+        "len_filter": None,  
     },
     "hard": {
-        "lives": 0,  # no extra lives
+        "lives": 0, 
         "timer_seconds": 60,
         "speed_range": (4.5, 6.5),
         "len_filter": None,
@@ -176,7 +176,7 @@ def draw_screen(lives, score, active_string, high_score, time_left):
 def draw_pause():
     # make sure the menu does not block the whole screen
     surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
-    # Add semi-transparent overlay covering entire screen
+    
     pygame.draw.rect(surface, (0, 0, 0, 180), [0, 0, WIDTH, HEIGHT], 0)
     box_x = 180
     box_y = 140
@@ -318,7 +318,8 @@ def run_game(difficulty="easy"):
 
             if event.type == pygame.KEYDOWN:
                 if not paused:
-                    if len(event.unicode) == 1 and event.unicode.isalnum():
+                    # accept alphanumeric and hyphen '-' characters while typing
+                    if len(event.unicode) == 1 and (event.unicode.isalnum() or event.unicode == "-"):
                         active_string += event.unicode
                         if click:
                             click.play()
