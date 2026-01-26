@@ -87,7 +87,7 @@ DIFFICULTY_RULES = {
     "hard": {
         "lives": 0,  # no extra lives
         "timer_seconds": 60,
-        "speed_range": (5, 7),
+        "speed_range": (4.5, 6.5),
         "len_filter": None,
     },
 }
@@ -233,7 +233,7 @@ def check_answer(word_objects, submit, score):
 
 
 def check_high_score(score, difficulty="easy"):
-    # update the saved high score if needed for this difficulty
+    # update the saved high score 
     high_score = 0
     filename = f"high_score_{difficulty}.txt"
     try:
