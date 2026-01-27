@@ -368,11 +368,13 @@ def main():
         ins = instructions_screen(screen, clock, WIDTH, HEIGHT)
         if ins == "quit":
             break
+
         if ins == "logbook":
-            lb = logbook_screen(screen, clock, WIDTH, HEIGHT)
+            lb = logbook_screen(screen, clock, WIDTH, HEIGHT, return_to="levels")
             if lb == "quit":
                 break
-            continue
+            ins = "next"
+
         if ins == "back":
             continue
 
