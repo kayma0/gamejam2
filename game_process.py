@@ -60,7 +60,7 @@ wrong = safe_sound("sound/error.mp3", 0.25)
 DIFFICULTY_RULES = {
     "easy":   {"lives": 3, "timer_seconds": 60, "speed_range": (2, 4),   "len_filter": (1, 5)},
     "medium": {"lives": 2, "timer_seconds": 60, "speed_range": (3, 5),   "len_filter": None},
-    "hard":   {"lives": 0, "timer_seconds": 60, "speed_range": (4.5, 6.5),"len_filter": None},
+    "hard":   {"lives": 1, "timer_seconds": 60, "speed_range": (4.5, 6.5),"len_filter": None},
 }
 
 def filter_words_by_length(bounds):
@@ -155,7 +155,7 @@ def generate_level(words_src, speed_range, score):
         smin, smax = speed_range
         speed = random.randint(int(smin * speed_factor), int(smax * speed_factor))
         y = int(play_top + (i + 0.5) * spacing)
-        x = random.randint(WIDTH, WIDTH + 1000)
+        x = random.randint(WIDTH - 200, WIDTH + 200)
         text = random.choice(words_src).lower()
         objs.append(Word(text, speed, y, x))
     return objs
@@ -255,7 +255,7 @@ def run_game(difficulty="easy"):
                     wrong.play()
 
         # ✅ game over -> let typing_game.py play video/audio screen
-        if lives < 0 or time_left <= 0:
+        if lives <= 0 or time_left <= 0:
             check_high_score(score, difficulty)
             return "game_over"
 
