@@ -1,4 +1,3 @@
-# typing_game.py
 import pygame
 import cv2
 
@@ -6,7 +5,6 @@ from game_process import run_game
 
 
 def draw_back_button(screen, WIDTH):
-    # top-left back button
     back_rect = pygame.Rect(20, 20, 120, 45)
     pygame.draw.rect(screen, (150, 90, 40), back_rect, border_radius=10)
     pygame.draw.rect(screen, (255, 255, 255), back_rect, 2, border_radius=10)
@@ -22,8 +20,7 @@ def play_video(screen, clock, path, WIDTH, HEIGHT):
     fps_video = video.get(cv2.CAP_PROP_FPS) or 30
 
     last_frame = None
-    playing = True
-    while playing:
+    while True:
         ret, frame = video.read()
         if not ret:
             break
@@ -39,7 +36,7 @@ def play_video(screen, clock, path, WIDTH, HEIGHT):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 video.release()
-                return None  # quit
+                return None
 
         clock.tick(fps_video)
 
@@ -47,9 +44,60 @@ def play_video(screen, clock, path, WIDTH, HEIGHT):
     return last_frame
 
 
+def end_video_screen(screen, clock, WIDTH, HEIGHT, video_path, audio_path):
+    # stop menu/background music
+    try:
+        pygame.mixer.music.stop()
+    except Exception:
+        pass
+
+    # play end audio once
+    end_snd = None
+    try:
+        end_snd = pygame.mixer.Sound(audio_path)
+        end_snd.play()
+    except Exception:
+        end_snd = None
+
+    # play end video
+    last_frame = play_video(screen, clock, video_path, WIDTH, HEIGHT)
+    if last_frame is None:
+        return "quit"
+
+    # button to return to levels
+    btn_font = pygame.font.SysFont("arial", 34, bold=True)
+    btn_w, btn_h = 320, 60
+    btn_x = (WIDTH - btn_w) // 2
+    btn_y = HEIGHT - 100
+    btn_rect = pygame.Rect(btn_x, btn_y, btn_w, btn_h)
+
+    while True:
+        clock.tick(60)
+        screen.blit(last_frame, (0, 0))
+
+        pygame.draw.rect(screen, (150, 90, 40), btn_rect, border_radius=12)
+        pygame.draw.rect(screen, (255, 255, 255), btn_rect, 2, border_radius=12)
+        txt = btn_font.render("BACK TO LEVELS", True, (255, 255, 255))
+        screen.blit(txt, txt.get_rect(center=btn_rect.center))
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return "quit"
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if btn_rect.collidepoint(event.pos):
+                    try:
+                        if end_snd:
+                            end_snd.stop()
+                    except Exception:
+                        pass
+                    return "levels"
+
+
 # ---------- screens ----------
 def begin_screen(screen, clock, WIDTH, HEIGHT, last_frame):
-    font = pygame.font.SysFont("arial", 38, bold= True)
+    font = pygame.font.SysFont("arial", 38, bold=True)
     button_width = 150
     button_height = 60
     button_x = (WIDTH - button_width) // 2
@@ -109,7 +157,6 @@ def instructions_screen(screen, clock, WIDTH, HEIGHT):
         # back button (top-left)
         back_rect = draw_back_button(screen, WIDTH)
 
-        # continue button (bottom-right)
         pygame.draw.rect(screen, (150, 90, 40), continue_button_rect, border_radius=12)
         pygame.draw.rect(screen, (255, 255, 255), continue_button_rect, 2, border_radius=12)
         text = font.render("CONTINUE", True, (255, 255, 255))
@@ -218,7 +265,7 @@ def main():
     pygame.init()
     pygame.mixer.init()
 
-    # music
+    # background music
     try:
         pygame.mixer.music.load("sound/intro_music.mp3")
         pygame.mixer.music.set_volume(0.25)
@@ -234,14 +281,15 @@ def main():
     intro_vid = "media/intro.mp4"
     outro_vid = "media/outro.mp4"
 
-    # intro video -> last frame
+    end_vid = "media/fail_screen.mp4"
+    end_audio = "sound/fail_sound.mp3"
+
     last_frame = play_video(screen, clock, intro_vid, WIDTH, HEIGHT)
     if last_frame is None:
         pygame.quit()
         return
 
     while True:
-        # BEGIN screen
         choice = begin_screen(screen, clock, WIDTH, HEIGHT, last_frame)
         if choice == "quit":
             break
@@ -251,7 +299,6 @@ def main():
         if end_frame is None:
             break
 
-        # Instructions (back returns to begin screen)
         ins = instructions_screen(screen, clock, WIDTH, HEIGHT)
         if ins == "quit":
             break
@@ -259,18 +306,16 @@ def main():
             logbook_screen(screen, clock, WIDTH, HEIGHT)
             continue
         if ins == "back":
-            continue  # go back to BEGIN screen
+            continue
 
-        # Level select loop (back returns to instructions)
         while True:
             diff = level_select(screen, clock, WIDTH, HEIGHT)
             if diff == "quit":
                 pygame.quit()
                 return
             if diff == "back":
-                # back to instructions
                 ins2 = instructions_screen(screen, clock, WIDTH, HEIGHT)
-                if ins2 in ("quit",):
+                if ins2 == "quit":
                     pygame.quit()
                     return
                 if ins2 == "back":
@@ -282,15 +327,26 @@ def main():
             if diff == "logbook": 
                 logbook_screen(screen, clock, WIDTH, HEIGHT)
                 continue
-                
-            # gameplay
-            result = run_game(diff)  # returns "back" or "quit"
+
+            result = run_game(diff)  # "back" | "quit" | "game_over"
+
             if result == "quit":
                 pygame.quit()
                 return
-            # if "back", return to level select loop automatically
 
-        # if we broke out (instructions back to begin), loop continues to BEGIN
+            if result == "back":
+                # back to level select
+                continue
+
+            if result == "game_over":
+                end = end_video_screen(screen, clock, WIDTH, HEIGHT, end_vid, end_audio)
+                if end == "quit":
+                    pygame.quit()
+                    return
+                # end == "levels" -> show level select again
+                continue
+
+        # if we broke out, it returns to BEGIN loop
 
     pygame.quit()
 
