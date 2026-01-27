@@ -78,7 +78,7 @@ class Word:
         self.x = x
 
     def draw(self, active_string):
-        screen.blit(word_font.render(self.text, True, TEXT_LIGHT), (self.x, self.y))
+        screen.blit(word_font.render(self.text, True, (150,90,40)), (self.x, self.y))
         typed_len = len(active_string)
         if active_string == self.text[:typed_len]:
             screen.blit(word_font.render(active_string, True, ACCENT), (self.x, self.y))
@@ -88,7 +88,6 @@ class Word:
 
 # ---------- UI drawing ----------
 def draw_pause_button():
-    # ✅ physical clickable pause button TOP-LEFT
     rect = pygame.Rect(20, 20, 55, 45)
     pygame.draw.rect(screen, (150, 90, 40), rect, border_radius=10)
     pygame.draw.rect(screen, (255, 255, 255), rect, 2, border_radius=10)
