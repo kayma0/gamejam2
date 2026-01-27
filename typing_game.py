@@ -204,9 +204,6 @@ def instructions_screen(screen, clock, WIDTH, HEIGHT):
         screen.blit(instructions_img, (0, 0))
 
         mx, my = pygame.mouse.get_pos()
-        # if top_right_rect.collidepoint((mx, my)):
-        #     logbook_hint = hint_font.render("Logbook", True, (255, 255, 255))
-        #     screen.blit(logbook_hint, (WIDTH - 140, 105))
 
         back_rect = draw_back_button(screen, WIDTH)
 
@@ -293,10 +290,6 @@ def level_select(screen, clock, WIDTH, HEIGHT):
         if hint:
             tip = hint_font.render(f"Click: {hint}", True, (255, 255, 255))
             screen.blit(tip, (160, 28))
-
-        # if top_right_rect.collidepoint((mx, my)):
-        #     logbook_hint = hint_font.render("Logbook", True, (255, 255, 255))
-        #     screen.blit(logbook_hint, (WIDTH - 140, 105))
 
         pygame.display.flip()
 

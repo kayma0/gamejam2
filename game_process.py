@@ -269,7 +269,6 @@ def run_game(difficulty="easy"):
                         wrong.play()
                 
                 
-        # ✅ game over -> let typing_game.py play video/audio screen
         if lives < 0 or time_left <= 0:
             check_high_score(score, difficulty)
             return "game_over"
