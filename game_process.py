@@ -108,7 +108,7 @@ class Word:
 
     def draw(self, active_string):
         # draw the word and paint part you typed
-        screen.blit(font.render(self.text, True, TEXT_LIGHT), (self.x_pos, self.y_pos))
+        screen.blit(font.render(self.text, True, (150,90,40) ,TEXT_LIGHT), (self.x_pos, self.y_pos))
         act_len = len(active_string)
         if active_string == self.text[:act_len]:
             screen.blit(font.render(active_string, True, ACCENT), (self.x_pos, self.y_pos))
