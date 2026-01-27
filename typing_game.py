@@ -4,7 +4,6 @@ import cv2
 from game_process import run_game
 
 
-# ---------- shared UI helpers ----------
 def draw_back_button(screen, WIDTH):
     back_rect = pygame.Rect(20, 20, 120, 45)
     pygame.draw.rect(screen, (150, 90, 40), back_rect, border_radius=10)
@@ -133,6 +132,7 @@ def instructions_screen(screen, clock, WIDTH, HEIGHT):
     instructions_img = pygame.transform.scale(instructions_img, (WIDTH, HEIGHT))
 
     font = pygame.font.SysFont("arial", 38, bold=True)
+    hint_font = pygame.font.SysFont("arial", 28, bold=True)
 
     continue_button_width = 220
     continue_button_height = 60
@@ -141,12 +141,20 @@ def instructions_screen(screen, clock, WIDTH, HEIGHT):
     continue_button_rect = pygame.Rect(
         continue_button_x, continue_button_y, continue_button_width, continue_button_height
     )
+    # top-right corner hitbox to lead to logbook
+    top_right_rect = pygame.Rect(WIDTH - 250, 20, 200, 200)
 
     while True:
         clock.tick(60)
-
         screen.blit(instructions_img, (0, 0))
 
+    #gives indication that what the user is hovering over is for the logbook
+        mx, my = pygame.mouse.get_pos()
+        if top_right_rect.collidepoint((mx, my)):
+            logbook_hint = hint_font.render("Logbook", True, (255, 255, 255))
+            screen.blit(logbook_hint, (WIDTH - 100, 100))
+
+        # back button (top-left)
         back_rect = draw_back_button(screen, WIDTH)
 
         pygame.draw.rect(screen, (150, 90, 40), continue_button_rect, border_radius=12)
@@ -162,16 +170,41 @@ def instructions_screen(screen, clock, WIDTH, HEIGHT):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if back_rect.collidepoint(event.pos):
                     return "back"
+                if top_right_rect.collidepoint(event.pos):
+                    return "logbook"
                 if continue_button_rect.collidepoint(event.pos):
                     return "next"
 
-
+def logbook_screen(screen, clock, WIDTH, HEIGHT):
+    logbook_img = pygame.image.load("media/logbook.png").convert()  
+    logbook_img = pygame.transform.scale(logbook_img, (WIDTH, HEIGHT))
+    
+    while True:
+        clock.tick(60)
+        screen.blit(logbook_img, (0, 0))
+        
+        # back button
+        back_rect = draw_back_button(screen, WIDTH)
+        
+        pygame.display.flip()
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return "quit"
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if back_rect.collidepoint(event.pos):
+                    return "back"
+                
 def level_select(screen, clock, WIDTH, HEIGHT):
     levels_img = pygame.image.load("media/levels.png").convert()
     levels_img = pygame.transform.scale(levels_img, (WIDTH, HEIGHT))
 
+    # top-right corner hitbox to lead to logbook
+    top_right_rect = pygame.Rect(WIDTH - 250, 20, 200, 200)
+
+    # clickable hitboxes 
     y_circle = int(HEIGHT * 0.36)
-    radius = int(min(WIDTH, HEIGHT) * 0.25)
+    radius = int(min(WIDTH, HEIGHT) * 0.15)
 
     easy_center = (int(WIDTH * 0.20), y_circle)
     medium_center = (int(WIDTH * 0.50), y_circle)
@@ -187,9 +220,10 @@ def level_select(screen, clock, WIDTH, HEIGHT):
     while True:
         clock.tick(60)
         screen.blit(levels_img, (0, 0))
-
+        # back button
         back_rect = draw_back_button(screen, WIDTH)
 
+        # hover hint
         mx, my = pygame.mouse.get_pos()
         hint = None
         if clicked_circle((mx, my), easy_center, radius):
@@ -202,6 +236,10 @@ def level_select(screen, clock, WIDTH, HEIGHT):
         if hint:
             tip = hint_font.render(f"Click: {hint}", True, (255, 255, 255))
             screen.blit(tip, (160, 28))
+        
+        if top_right_rect.collidepoint((mx, my)):
+                logbook_hint = hint_font.render("Logbook", True, (255, 255, 255))
+                screen.blit(logbook_hint, (WIDTH - 100, 100))
 
         pygame.display.flip()
 
@@ -212,6 +250,8 @@ def level_select(screen, clock, WIDTH, HEIGHT):
                 if back_rect.collidepoint(event.pos):
                     return "back"
                 pos = event.pos
+                if top_right_rect.collidepoint(event.pos):
+                    return "logbook"
                 if clicked_circle(pos, easy_center, radius):
                     return "easy"
                 if clicked_circle(pos, medium_center, radius):
@@ -220,7 +260,7 @@ def level_select(screen, clock, WIDTH, HEIGHT):
                     return "hard"
 
 
-# ---------- main flow ----------
+# ---------- main game ----------
 def main():
     pygame.init()
     pygame.mixer.init()
@@ -241,8 +281,11 @@ def main():
     intro_vid = "media/intro.mp4"
     outro_vid = "media/outro.mp4"
 
-    end_vid = "media/fail_screen.mp4"
-    end_audio = "sound/fail_sound.mp3"
+    fail_vid = "media/fail_screen.mp4"
+    fail_audio = "sound/fail_sound.mp3"
+    
+    success_vid = "media/level_complete.mp4"
+    success_audio = "sound/success_sound.mp3"
 
     last_frame = play_video(screen, clock, intro_vid, WIDTH, HEIGHT)
     if last_frame is None:
@@ -254,6 +297,7 @@ def main():
         if choice == "quit":
             break
 
+        # play your second video 
         end_frame = play_video(screen, clock, outro_vid, WIDTH, HEIGHT)
         if end_frame is None:
             break
@@ -261,6 +305,9 @@ def main():
         ins = instructions_screen(screen, clock, WIDTH, HEIGHT)
         if ins == "quit":
             break
+        if ins == "logbook":
+            logbook_screen(screen, clock, WIDTH, HEIGHT)
+            continue
         if ins == "back":
             continue
 
@@ -275,10 +322,16 @@ def main():
                     pygame.quit()
                     return
                 if ins2 == "back":
-                    break
+                    # back to begin screen
+                    break  # break out to BEGIN
+                # if next, go back to level select again
+                continue       
+            
+            if diff == "logbook": 
+                logbook_screen(screen, clock, WIDTH, HEIGHT)
                 continue
 
-            result = run_game(diff)  # "back" | "quit" | "game_over"
+            result = run_game(diff)  # "back" | "quit" | "game_over" | "level_complete"
 
             if result == "quit":
                 pygame.quit()
@@ -289,7 +342,15 @@ def main():
                 continue
 
             if result == "game_over":
-                end = end_video_screen(screen, clock, WIDTH, HEIGHT, end_vid, end_audio)
+                end = end_video_screen(screen, clock, WIDTH, HEIGHT, fail_vid, fail_audio)
+                if end == "quit":
+                    pygame.quit()
+                    return
+                # end == "levels" -> show level select again
+                continue
+            
+            if result == "level_complete":
+                end = end_video_screen(screen, clock, WIDTH, HEIGHT, success_vid, success_audio)
                 if end == "quit":
                     pygame.quit()
                     return
