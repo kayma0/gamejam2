@@ -2,8 +2,7 @@
 import pygame
 import random
 
-# NOTE: Don't call pygame.init() at import time in big projects,
-# but since your project works this way, we’ll keep it.
+
 pygame.init()
 
 WORD_LIST = []
@@ -173,7 +172,7 @@ def draw_pause():
     resume_btn = Button(box_x + 80, btn_y, ">", False, surface)
     resume_btn.draw()
 
-    # This used to be QUIT — now it's BACK
+    
     back_btn = Button(box_x + box_w - 120, btn_y, "<", False, surface)
     back_btn.draw()
 
@@ -326,6 +325,8 @@ def run_game(difficulty="easy"):
             high_score = check_high_score(score, difficulty)
             score = 0
             time_left = float(timer_limit)
+            active_string = ""
+            submit = ""
 
         pygame.display.flip()
 
