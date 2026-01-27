@@ -66,8 +66,8 @@ def end_video_screen(screen, clock, WIDTH, HEIGHT, video_path, audio_path):
         return "quit"
 
     # button to return to levels
-    btn_font = pygame.font.SysFont("arial", 34, bold=True)
-    btn_w, btn_h = 320, 60
+    btn_font = pygame.font.SysFont("arial", 30, bold=True)
+    btn_w, btn_h = 200, 60
     btn_x = (WIDTH - btn_w) // 2
     btn_y = HEIGHT - 100
     btn_rect = pygame.Rect(btn_x, btn_y, btn_w, btn_h)
@@ -78,7 +78,7 @@ def end_video_screen(screen, clock, WIDTH, HEIGHT, video_path, audio_path):
 
         pygame.draw.rect(screen, (150, 90, 40), btn_rect, border_radius=12)
         pygame.draw.rect(screen, (255, 255, 255), btn_rect, 2, border_radius=12)
-        txt = btn_font.render("BACK TO LEVELS", True, (255, 255, 255))
+        txt = btn_font.render("CONTINUE", True, (255, 255, 255))
         screen.blit(txt, txt.get_rect(center=btn_rect.center))
 
         pygame.display.flip()

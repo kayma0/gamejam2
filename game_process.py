@@ -160,15 +160,28 @@ def generate_level(words_src, speed_range, score):
         objs.append(Word(text, speed, y, x))
     return objs
 
+# def check_answer(word_objects, submit, score):
+#     for w in list(word_objects):
+#         if w.text == submit:
+#             points = w.speed * len(w.text) * 10 * (len(w.text) / 4)
+#             score += int(points)
+#             word_objects.remove(w)
+#             if woosh:
+#                 woosh.play()
+#     return score
+
 def check_answer(word_objects, submit, score):
+    matched = False
     for w in list(word_objects):
         if w.text == submit:
+            matched = True
             points = w.speed * len(w.text) * 10 * (len(w.text) / 4)
             score += int(points)
             word_objects.remove(w)
             if woosh:
                 woosh.play()
-    return score
+            break
+    return score, matched
 
 def check_high_score(score, difficulty="easy"):
     filename = f"high_score_{difficulty}.txt"
@@ -248,12 +261,15 @@ def run_game(difficulty="easy"):
                 new_level = True
 
             if submit:
-                before = score
-                score = check_answer(word_objects, submit, score)
+                score, matched = check_answer(word_objects, submit, score)
                 submit = ""
-                if before == score and wrong:
-                    wrong.play()
 
+                if not matched:
+                    lives -= 1
+                    if wrong:
+                        wrong.play()
+                
+                
         # ✅ game over -> let typing_game.py play video/audio screen
         if lives < 0 or time_left <= 0:
             check_high_score(score, difficulty)
