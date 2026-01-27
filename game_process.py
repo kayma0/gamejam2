@@ -229,14 +229,6 @@ def run_game(difficulty="easy"):
         # menu if paused
         resume_rect = back_rect = None
         if paused:
-<<<<<<< HEAD
-            resume_butt, back_butt = draw_pause()
-            if resume_butt:
-                paused = False
-            if back_butt:
-                check_high_score(score, difficulty)
-                return "back" 
-=======
             resume_rect, back_rect = draw_pause_menu()
 
         # gameplay only if not paused
@@ -244,7 +236,6 @@ def run_game(difficulty="easy"):
             if new_level:
                 word_objects = generate_level(words_src, speed_range, score)
                 new_level = False
->>>>>>> 06b8aa3efc2565073467422a5a7f4ddbbabf2d79
 
             for w in list(word_objects):
                 w.draw(active_string)
