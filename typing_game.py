@@ -281,8 +281,11 @@ def main():
     intro_vid = "media/intro.mp4"
     outro_vid = "media/outro.mp4"
 
-    end_vid = "media/fail_screen.mp4"
-    end_audio = "sound/fail_sound.mp3"
+    fail_vid = "media/fail_screen.mp4"
+    fail_audio = "sound/fail_sound.mp3"
+    
+    success_vid = "media/level_complete.mp4"
+    success_audio = "sound/success_sound.mp3"
 
     last_frame = play_video(screen, clock, intro_vid, WIDTH, HEIGHT)
     if last_frame is None:
@@ -328,7 +331,7 @@ def main():
                 logbook_screen(screen, clock, WIDTH, HEIGHT)
                 continue
 
-            result = run_game(diff)  # "back" | "quit" | "game_over"
+            result = run_game(diff)  # "back" | "quit" | "game_over" | "level_complete"
 
             if result == "quit":
                 pygame.quit()
@@ -339,7 +342,15 @@ def main():
                 continue
 
             if result == "game_over":
-                end = end_video_screen(screen, clock, WIDTH, HEIGHT, end_vid, end_audio)
+                end = end_video_screen(screen, clock, WIDTH, HEIGHT, fail_vid, fail_audio)
+                if end == "quit":
+                    pygame.quit()
+                    return
+                # end == "levels" -> show level select again
+                continue
+            
+            if result == "level_complete":
+                end = end_video_screen(screen, clock, WIDTH, HEIGHT, success_vid, success_audio)
                 if end == "quit":
                     pygame.quit()
                     return

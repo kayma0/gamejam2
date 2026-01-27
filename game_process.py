@@ -254,9 +254,16 @@ def run_game(difficulty="easy"):
                 if before == score and wrong:
                     wrong.play()
 
-        # ✅ game over -> let typing_game.py play video/audio screen
-        if lives <= 0 or time_left <= 0:
+        # ✅ check win/loss conditions
+        if lives <= 0:
             check_high_score(score, difficulty)
+            return "game_over"
+        
+        if time_left <= 0:
+            check_high_score(score, difficulty)
+            # won if completed with time running out but still have lives
+            if score > 0:
+                return "level_complete"
             return "game_over"
 
         # events (clicks handled here, not in draw functions)
