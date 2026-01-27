@@ -50,8 +50,8 @@ def play_video(screen, clock, path, WIDTH, HEIGHT):
 
 # ---------- screens ----------
 def begin_screen(screen, clock, WIDTH, HEIGHT, last_frame):
-    font = pygame.font.SysFont("arial", 48)
-    button_width = 200
+    font = pygame.font.SysFont("arial", 38, bold= True)
+    button_width = 150
     button_height = 60
     button_x = (WIDTH - button_width) // 2
     button_y = (HEIGHT - button_height) - 80
@@ -67,7 +67,7 @@ def begin_screen(screen, clock, WIDTH, HEIGHT, last_frame):
 
         pygame.draw.rect(screen, (150, 90, 40), button_rect, border_radius=12)
         pygame.draw.rect(screen, (255, 255, 255), button_rect, 2, border_radius=12)
-        text = font.render("BEGIN", True, (0, 0, 0))
+        text = font.render("BEGIN", True, (255, 255, 255))
         screen.blit(text, text.get_rect(center=button_rect.center))
 
         pygame.display.flip()
@@ -84,7 +84,7 @@ def instructions_screen(screen, clock, WIDTH, HEIGHT):
     instructions_img = pygame.image.load("media/instructions.png").convert()
     instructions_img = pygame.transform.scale(instructions_img, (WIDTH, HEIGHT))
 
-    font = pygame.font.SysFont("arial", 48)
+    font = pygame.font.SysFont("arial", 38, bold=True)
 
     continue_button_width = 220
     continue_button_height = 60
@@ -157,7 +157,7 @@ def level_select(screen, clock, WIDTH, HEIGHT):
             hint = "HARD"
 
         if hint:
-            tip = hint_font.render(f"Click: {hint}", True, (0, 0, 0))
+            tip = hint_font.render(f"Click: {hint}", True, (255, 255, 255))
             screen.blit(tip, (160, 28))
 
         pygame.display.flip()
