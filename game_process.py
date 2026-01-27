@@ -167,20 +167,20 @@ def draw_pause():
     pygame.draw.rect(surface, (0, 0, 0, 140), [box_x, box_y, box_w, box_h], 0, 5)
     pygame.draw.rect(surface, ACCENT + (220,), [box_x, box_y, box_w, box_h], 5, 5)
 
-    overlay.blit(header_font.render("MENU", True, TEXT_LIGHT), (box_x + 10, box_y + 10))
+    surface.blit(header_font.render("MENU", True, TEXT_LIGHT), (box_x + 10, box_y + 10))
 
     btn_y = box_y + 120
-    resume_btn = Button(box_x + 80, btn_y, ">", False, overlay)
+    resume_btn = Button(box_x + 80, btn_y, ">", False, surface)
     resume_btn.draw()
 
-    # This used to be QUIT — now it’s BACK
-    back_btn = Button(box_x + box_w - 120, btn_y, "<", False, overlay)
+    # This used to be QUIT — now it's BACK
+    back_btn = Button(box_x + box_w - 120, btn_y, "<", False, surface)
     back_btn.draw()
 
-    overlay.blit(header_font.render("PLAY!", True, TEXT_LIGHT), (box_x + 40, btn_y + 60))
-    overlay.blit(header_font.render("BACK", True, TEXT_LIGHT), (box_x + box_w - 240, btn_y + 60))
+    surface.blit(header_font.render("PLAY!", True, TEXT_LIGHT), (box_x + 40, btn_y + 60))
+    surface.blit(header_font.render("BACK", True, TEXT_LIGHT), (box_x + box_w - 240, btn_y + 60))
 
-    screen.blit(overlay, (0, 0))
+    screen.blit(surface, (0, 0))
     return resume_btn.clicked, back_btn.clicked
 
 def generate_level(words_src, speed_range, score):
@@ -295,7 +295,7 @@ def run_game(difficulty="easy"):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 check_high_score(score, difficulty)
-                return "quit"  # ✅ tell typing_game to exit
+                return "quit"  
 
             if event.type == pygame.KEYDOWN:
                 if not paused:
