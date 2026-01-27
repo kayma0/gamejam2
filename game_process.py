@@ -81,13 +81,14 @@ DIFFICULTY_RULES = {
     "medium": {
         "lives": 2,
         "timer_seconds": 60,
+        "speed_range": (3, 5),
         "speed_range": (2, 4),
         "len_filter": None,  # mix all words
     },
     "hard": {
         "lives": 1,  # one life only
         "timer_seconds": 60,
-        "speed_range": (2, 5),
+        "speed_range": (4.5, 6.5),
         "len_filter": None,
     },
 }
@@ -176,6 +177,8 @@ def draw_screen(lives, score, active_string, high_score, time_left):
 def draw_pause():
     # make sure the menu does not block the whole screen
     surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+    # Add semi-transparent overlay covering entire screen
+    pygame.draw.rect(surface, (0, 0, 0, 180), [0, 0, WIDTH, HEIGHT], 0)
     box_x = 180
     box_y = 140
     box_w = WIDTH - 360
@@ -233,7 +236,7 @@ def check_answer(word_objects, submit, score):
 
 
 def check_high_score(score, difficulty="easy"):
-    # update the saved high score if needed for this difficulty
+    # update the saved high score 
     high_score = 0
     filename = f"high_score_{difficulty}.txt"
     try:
@@ -290,15 +293,14 @@ def run_game(difficulty="easy"):
         if new_level and not paused:
             word_objects = generate_level(words_src, speed_range, score)
             new_level = False
-        else:
+        elif not paused:
             for w in list(word_objects):
                 w.draw(active_string)
-                if not paused:
-                    w.update()
+                w.update()
                 if w.x_pos < -200:
                     word_objects.remove(w)
                     lives -= 1
-            if not paused and time_left <= 0:
+            if time_left <= 0:
                 lives = -1
         if len(word_objects) <= 0 and not paused:
             new_level = True
@@ -342,4 +344,3 @@ def run_game(difficulty="easy"):
             time_left = float(timer_limit)
 
         pygame.display.flip()
-    pygame.quit()
