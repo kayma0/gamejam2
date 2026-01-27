@@ -1,9 +1,10 @@
+# game_process.py
 import pygame
 import random
 
+
 pygame.init()
 
-# read words from the list so we can pick them
 WORD_LIST = []
 with open("words.txt") as f:
     for word_line in f:
@@ -11,10 +12,8 @@ with open("words.txt") as f:
         if clean:
             WORD_LIST.append(clean)
 
-# sort by length so easy mode can use short ones
 WORD_LIST.sort(key=len)
 
-# make the game window and timer
 WIDTH = 1200
 HEIGHT = 800
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
@@ -23,14 +22,12 @@ surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
 clock = pygame.time.Clock()
 fps = 60
 
-# colours and fonts the game will use
 ACCENT = (199, 134, 51)
 BG = (12, 12, 16)
 PANEL = (224, 206, 173)
 TEXT_LIGHT = (250, 250, 250)
 TEXT_DARK = (20, 20, 20)
 
-# try to load a background picture
 def load_background(path):
     try:
         image = pygame.image.load(path).convert()
@@ -38,18 +35,15 @@ def load_background(path):
     except Exception:
         return None
 
-BACKGROUND_IMAGE = load_background("media/typing_bg.png")
+BACKGROUND_IMAGE = load_background("media/gamepage.png")
 
 header_font = pygame.font.SysFont("arial", 50, bold=True)
 pause_font = pygame.font.SysFont("arial", 38, bold=True)
 banner_font = pygame.font.SysFont("arial", 28, bold=True)
 font = pygame.font.SysFont("arial", 48, bold=True)
 
-# sounds for clicks 
 pygame.mixer.init()
 
-
-# load a sound safely so the game does not crash
 def safe_sound(path, volume=0.3):
     try:
         s = pygame.mixer.Sound(path)
@@ -57,7 +51,6 @@ def safe_sound(path, volume=0.3):
         return s
     except Exception:
         return None
-
 
 try:
     pygame.mixer.music.load("sound/intro_music.mp3")
@@ -70,7 +63,6 @@ click = safe_sound("sound/keypress.mp3", 0.25)
 woosh = safe_sound("sound/confirm.mp3", 0.25)
 wrong = safe_sound("sound/error.mp3", 0.25)
 
-# rules for each difficulty
 DIFFICULTY_RULES = {
     "easy": {
         "lives": 3,
@@ -82,19 +74,16 @@ DIFFICULTY_RULES = {
         "lives": 2,
         "timer_seconds": 60,
         "speed_range": (3, 5),
-        "speed_range": (2, 4),
-        "len_filter": None,  # mix all words
+        "len_filter": None,  
     },
     "hard": {
-        "lives": 1,  # one life only
+        "lives": 0, 
         "timer_seconds": 60,
         "speed_range": (4.5, 6.5),
         "len_filter": None,
     },
 }
 
-
-# pick words inside a length range
 def filter_words_by_length(bounds):
     if not bounds:
         return WORD_LIST
@@ -106,11 +95,9 @@ def filter_words_by_length(bounds):
     return keep_words
 
 
-# keep words sorted for random choice later
+# keep words sorted 
 def build_len_indexes(words_src):
-    sorted_words = sorted(words_src, key=len)
-    return sorted_words
-
+    return sorted(words_src, key=len)
 
 class Word:
     def __init__(self, text, speed, y_pos, x_pos):
@@ -120,16 +107,14 @@ class Word:
         self.x_pos = x_pos
 
     def draw(self, active_string):
-        # draw the word and paint the part you typed
-        screen.blit(font.render(self.text, True, (101, 67, 33)), (self.x_pos, self.y_pos)) 
+        # draw the word and paint part you typed
+        screen.blit(font.render(self.text, True, TEXT_LIGHT), (self.x_pos, self.y_pos))
         act_len = len(active_string)
         if active_string == self.text[:act_len]:
             screen.blit(font.render(active_string, True, ACCENT), (self.x_pos, self.y_pos))
 
     def update(self):
-        # move the word to the left
         self.x_pos -= self.speed
-
 
 class Button:
     def __init__(self, x_pos, y_pos, text, clicked, surf):
@@ -140,7 +125,6 @@ class Button:
         self.surf = surf
 
     def draw(self):
-        # draw a round button and set clicked when pressed
         cir = pygame.draw.circle(self.surf, (45, 89, 135), (self.x_pos, self.y_pos), 35)
         if cir.collidepoint(pygame.mouse.get_pos()):
             butts = pygame.mouse.get_pressed()
@@ -152,32 +136,28 @@ class Button:
         pygame.draw.circle(self.surf, "white", (self.x_pos, self.y_pos), 35, 3)
         self.surf.blit(pause_font.render(self.text, True, "white"), (self.x_pos - 15, self.y_pos - 25))
 
-
 def draw_screen(lives, score, active_string, high_score, time_left):
-    # draw the borders and bottom bar
     pygame.draw.rect(screen, PANEL, [0, HEIGHT - 100, WIDTH, 100], 0)
     pygame.draw.rect(screen, ACCENT, [0, 0, WIDTH, HEIGHT], 5)
     pygame.draw.line(screen, ACCENT, (0, HEIGHT - 100), (WIDTH, HEIGHT - 100), 2)
     pygame.draw.line(screen, ACCENT, (WIDTH - 500, HEIGHT - 100), (WIDTH - 500, HEIGHT), 2)
+
     pause_btn = Button(WIDTH - 52, HEIGHT - 52, "II", False, screen)
     pause_btn.draw()
 
-    # top row showing lives high score and timer
     screen.blit(banner_font.render(f"Lives: {lives}", True, TEXT_LIGHT), (20, 10))
     screen.blit(banner_font.render(f"Best: {high_score}", True, TEXT_LIGHT), (WIDTH - 300, 10))
     screen.blit(banner_font.render(f"Time: {int(time_left)}s", True, TEXT_LIGHT), (WIDTH // 2 - 80, 10))
 
-    # bottom bar shows  input on the left and score on the right
     word_box_text = f"\"{active_string}\"" if active_string else ' "" '
     screen.blit(header_font.render(word_box_text, True, TEXT_DARK), (30, HEIGHT - 75))
     screen.blit(header_font.render(f"Score: {score}", True, TEXT_DARK), (WIDTH - 480, HEIGHT - 75))
     return pause_btn.clicked
 
-
 def draw_pause():
     # make sure the menu does not block the whole screen
     surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
-    # Add semi-transparent overlay covering entire screen
+  
     pygame.draw.rect(surface, (0, 0, 0, 180), [0, 0, WIDTH, HEIGHT], 0)
     box_x = 180
     box_y = 140
@@ -186,32 +166,31 @@ def draw_pause():
     pygame.draw.rect(surface, (0, 0, 0, 140), [box_x, box_y, box_w, box_h], 0, 5)
     pygame.draw.rect(surface, ACCENT + (220,), [box_x, box_y, box_w, box_h], 5, 5)
 
-   
     surface.blit(header_font.render("MENU", True, TEXT_LIGHT), (box_x + 10, box_y + 10))
-    
+
     btn_y = box_y + 120
     resume_btn = Button(box_x + 80, btn_y, ">", False, surface)
     resume_btn.draw()
-    quit_btn = Button(box_x + box_w - 120, btn_y, "X", False, surface)
-    quit_btn.draw()
-    surface.blit(header_font.render("PLAY!", True, TEXT_LIGHT), (box_x + 40, btn_y + 60))
-    surface.blit(header_font.render("QUIT", True, TEXT_LIGHT), (box_x + box_w - 220, btn_y + 60))
-    screen.blit(surface, (0, 0))
-    return resume_btn.clicked, quit_btn.clicked
 
+    
+    back_btn = Button(box_x + box_w - 120, btn_y, "<", False, surface)
+    back_btn.draw()
+
+    surface.blit(header_font.render("PLAY!", True, TEXT_LIGHT), (box_x + 40, btn_y + 60))
+    surface.blit(header_font.render("BACK", True, TEXT_LIGHT), (box_x + box_w - 240, btn_y + 60))
+
+    screen.blit(surface, (0, 0))
+    return resume_btn.clicked, back_btn.clicked
 
 def generate_level(words_src, speed_range, score):
-    # make falling words 
     word_objs = []
-    play_area_top = 150 
-    play_area_bottom = HEIGHT - 150  
+    play_area_top = 150
+    play_area_bottom = HEIGHT - 150
     play_area_height = play_area_bottom - play_area_top
 
     word_count = min(6, 3 + (score // 500))
-    # speed of words increases with score
     speed_factor = 1.0 + (score // 1000) * 0.15
-    if word_count <= 0:
-        return word_objs
+
     vertical_spacing = play_area_height / word_count
     for i in range(word_count):
         base_speed_min, base_speed_max = speed_range
@@ -222,9 +201,7 @@ def generate_level(words_src, speed_range, score):
         word_objs.append(Word(text, speed, y_pos, x_pos))
     return word_objs
 
-
 def check_answer(word_objects, submit, score):
-    # see if the typed word matches any  falling word
     for wrd in list(word_objects):
         if wrd.text == submit:
             points = wrd.speed * len(wrd.text) * 10 * (len(wrd.text) / 4)
@@ -234,9 +211,7 @@ def check_answer(word_objects, submit, score):
                 woosh.play()
     return score
 
-
 def check_high_score(score, difficulty="easy"):
-    # update the saved high score 
     high_score = 0
     filename = f"high_score_{difficulty}.txt"
     try:
@@ -252,11 +227,11 @@ def check_high_score(score, difficulty="easy"):
 
 
 def run_game(difficulty="easy"):
-    # main loop that runs the game
     rules = DIFFICULTY_RULES.get(difficulty, DIFFICULTY_RULES["easy"])
     lives = rules["lives"]
     timer_limit = rules["timer_seconds"]
     speed_range = rules["speed_range"]
+
     words_src = filter_words_by_length(rules["len_filter"])
     words_src = build_len_indexes(words_src)
     if not words_src:
@@ -277,19 +252,22 @@ def run_game(difficulty="easy"):
             screen.blit(BACKGROUND_IMAGE, (0, 0))
         else:
             screen.fill(BG)
+
         dt = clock.tick(fps) / 1000.0
 
         if not paused and lives >= 0 and time_left > 0:
             time_left = max(0, time_left - dt)
 
         pause_butt = draw_screen(lives, score, active_string, high_score, time_left)
+
         if paused:
-            resume_butt, quit_butt = draw_pause()
+            resume_butt, back_butt = draw_pause()
             if resume_butt:
                 paused = False
-            if quit_butt:
+            if back_butt:
                 check_high_score(score, difficulty)
-                break
+                return "back"  # ✅ go back to level select
+
         if new_level and not paused:
             word_objects = generate_level(words_src, speed_range, score)
             new_level = False
@@ -302,6 +280,7 @@ def run_game(difficulty="easy"):
                     lives -= 1
             if time_left <= 0:
                 lives = -1
+
         if len(word_objects) <= 0 and not paused:
             new_level = True
 
@@ -315,19 +294,23 @@ def run_game(difficulty="easy"):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 check_high_score(score, difficulty)
-                run = False
+                return "quit"  
 
             if event.type == pygame.KEYDOWN:
                 if not paused:
-                    if len(event.unicode) == 1 and event.unicode.isalnum():
+                    # allow letters numbers and hyphens while typing
+                    if len(event.unicode) == 1 and (event.unicode.isalnum() or event.unicode == "-"):
                         active_string += event.unicode
                         if click:
                             click.play()
+
                     if event.key == pygame.K_BACKSPACE and len(active_string) > 0:
                         active_string = active_string[:-1]
+
                     if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         submit = active_string
                         active_string = ""
+                        
                 if event.key == pygame.K_ESCAPE:
                     paused = not paused
 
@@ -342,5 +325,9 @@ def run_game(difficulty="easy"):
             high_score = check_high_score(score, difficulty)
             score = 0
             time_left = float(timer_limit)
+            active_string = ""
+            submit = ""
 
         pygame.display.flip()
+
+    return "back"
