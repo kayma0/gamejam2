@@ -58,9 +58,9 @@ wrong = safe_sound("sound/error.mp3", 0.25)
 
 # ---------- difficulty ----------
 DIFFICULTY_RULES = {
-    "easy":   {"lives": 3, "timer_seconds": 60, "speed_range": (2, 4),   "len_filter": (1, 5)},
-    "medium": {"lives": 2, "timer_seconds": 60, "speed_range": (3, 5),   "len_filter": None},
-    "hard":   {"lives": 1, "timer_seconds": 60, "speed_range": (4.5, 6.5),"len_filter": None},
+    "easy":   {"lives": 3, "timer_seconds": 60, "speed_range": (1, 3),   "len_filter": (1, 5)},
+    "medium": {"lives": 2, "timer_seconds": 60, "speed_range": (2, 4),   "len_filter": None},
+    "hard":   {"lives": 1, "timer_seconds": 60, "speed_range": (2, 5),"len_filter": None},
 }
 
 def filter_words_by_length(bounds):
