@@ -266,7 +266,7 @@ def run_game(difficulty="easy"):
                 paused = False
             if back_butt:
                 check_high_score(score, difficulty)
-                return "back"  # ✅ go back to level select
+                return "back" 
 
         if new_level and not paused:
             word_objects = generate_level(words_src, speed_range, score)
