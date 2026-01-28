@@ -201,6 +201,7 @@ def check_high_score(score, difficulty="easy"):
 
 # ---------- main game ----------
 def run_game(difficulty="easy"):
+    clock = pygame.time.Clock()
     rules = DIFFICULTY_RULES.get(difficulty, DIFFICULTY_RULES["easy"])
     lives = rules["lives"]
     timer_limit = rules["timer_seconds"]
