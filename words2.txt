@@ -1,15 +1,13 @@
 ace — a pilot who shot down many enemy aircraft
 admiral — a high-ranking navy commander
 advance — to move forward to attack or capture enemy ground
-advance — to move forward to attack or capture enemy ground
 africa — major WWII battleground (North Africa campaign)
 agent — a spy or secret operative gathering information
 airborne — transported or deployed by aircraft or parachute
 airfield — a runway/base where military planes take off and land
-airfield — a runway/base where military planes take off and land
 airraid — an enemy attack by aircraft dropping bombs
 airstrike — a targeted bombing or attack from aircraft
-alan — likely Alan Turing, codebreaker who helped crack Enigma
+alan — Alan Turing, codebreaker who helped crack Enigma
 algorithm — a step-by-step method used in computing or codebreaking
 allies — countries united against the Axis powers
 ambulance — vehicle used to carry wounded soldiers to safety
@@ -47,7 +45,7 @@ berlin — capital of Germany and final major WWII battle site
 binary — number system using 0 and 1, used in early computing
 bismarck — powerful German battleship sunk by the British navy
 blackout — turning off lights to avoid enemy bombers spotting cities
-bletchley — Bletchley Park, British codebreaking centre
+bletchley — Bletchley Park aka Station X, British codebreaking centre
 blinker — signal lamp used to send Morse code messages
 blitz — intense German bombing campaign on Britain
 block — to stop or restrict movement or supplies
@@ -88,7 +86,6 @@ cipherwheel — rotating device used to encode/decode messages
 circuit — electrical pathway used in radios or computers
 clarke — Joan Clarke, Bletchley Park codebreaker and mathematician
 classified — kept secret for security reasons
-classified — kept secret for security reasons
 code — system of symbols used to hide messages
 codebook — book explaining meanings of codes
 codeword — secret word with special meaning
@@ -127,7 +124,6 @@ destroyer — fast warship designed to protect fleets
 diesel — fuel used by tanks, trucks, and submarines
 dispatch — urgent official message or order
 document — written or recorded information
-dogfight — close aerial battle between fighter planes
 dogfight — close aerial battle between fighter planes
 dot — short Morse code signal
 doublecross — turning an enemy spy into a double agent
@@ -170,7 +166,6 @@ flower — Flower-class corvette escort ship
 fockewulf — German fighter aircraft manufacturer
 forecast — predict weather or events for planning missions
 formation — organised arrangement of troops or aircraft
-formation — organised arrangement of troops or aircraft
 fortitude — Allied deception plan before D-Day
 freedom — state of being free from enemy control
 french — relating to France or its resistance forces
@@ -194,7 +189,6 @@ gunner — person operating a heavy weapon
 halftrack — vehicle with wheels in front and tracks at back
 handshake — signal or greeting to confirm identity
 hangar — building where aircraft are stored
-hangar — building where aircraft are stored
 headquarters — command centre for planning operations
 headset — headphones with microphone for radio use
 hedgerow — thick bushes used as cover in Normandy fighting
@@ -211,17 +205,14 @@ hitler — leader of Nazi Germany
 homefront — civilian life and work supporting the war effort
 hood — British battlecruiser HMS Hood
 howitzer — type of artillery cannon with high arc fire
-howitzer — type of artillery cannon with high arc fire
 hurricane — British RAF fighter plane (Hawker Hurricane)
 husky — codename for Allied invasion of Sicily
 hut — small building, like codebreaking huts at Bletchley
 industry — factories and production supporting war
 infantry — soldiers who fight on foot
-infantry — soldiers who fight on foot
 inflatable — able to be filled with air, sometimes used for decoys
 insignia — badges showing rank or unit
 intelligence — gathered information about the enemy
-intercept — capture enemy communications or aircraft
 intercept — capture enemy communications or aircraft
 italy — country and major WWII battlefront
 jammer — device that blocks radio signals
@@ -375,7 +366,6 @@ rendezvous — planned meeting point
 resistance — groups fighting enemy occupation secretly
 response — reply to a signal or message
 retreat — move back from battle
-retreat — move back from battle
 rifle — long firearm used by soldiers
 rifleman — soldier armed with a rifle
 rocket — self-propelled projectile weapon
@@ -384,7 +374,6 @@ roosevelt — US President Franklin D. Roosevelt
 rotor — rotating part inside Enigma for encryption
 rotors — multiple rotating cipher components
 runner — person delivering messages by hand
-runway — strip where planes take off and land
 runway — strip where planes take off and land
 sabotage — secretly damaging enemy equipment
 safehouse — hidden place for shelter or meetings
@@ -421,7 +410,6 @@ spitfire — British RAF fighter plane
 spotter — person locating targets for artillery
 spy — person secretly gathering information
 squadron — group of aircraft or ships
-squadron — group of aircraft or ships
 stalag — German prisoner-of-war camp
 stalin — leader of the Soviet Union during WWII
 stalingrad — major turning-point battle city
@@ -434,9 +422,7 @@ stretcher — device for carrying injured soldiers
 stukka — German dive-bomber aircraft (Stuka)
 submarine — underwater warship
 supply — provide troops with food or equipment
-supply — provide troops with food or equipment
 surrender — give up fighting
-switch — device to change circuits or settings
 switch — device to change circuits or settings
 sword — bladed weapon, sometimes ceremonial
 t34 — Soviet medium tank
@@ -452,7 +438,6 @@ tiger — German heavy Tiger tank
 tirpitz — German battleship sister to Bismarck
 toggle — switch between states
 token — symbol or code unit
-torch — codename for Allied invasion of North Africa
 torch — codename for Allied invasion of North Africa
 torpedo — underwater missile fired at ships
 torpedoes — multiple underwater missiles
