@@ -1,0 +1,486 @@
+ace — a pilot who shot down many enemy aircraft
+admiral — a high-ranking navy commander
+advance — to move forward to attack or capture enemy ground
+africa — major WWII battleground (North Africa campaign)
+agent — a spy or secret operative gathering information
+airborne — transported or deployed by aircraft or parachute
+airfield — a runway/base where military planes take off and land
+airraid — an enemy attack by aircraft dropping bombs
+airstrike — a targeted bombing or attack from aircraft
+alan — Alan Turing, codebreaker who helped crack Enigma
+algorithm — a step-by-step method used in computing or codebreaking
+allies — countries united against the Axis powers
+ambulance — vehicle used to carry wounded soldiers to safety
+analysis — careful study of information, maps, or intelligence
+anderson — Anderson shelter, a small backyard bomb shelter for civilians
+antiaircraft — weapons designed to shoot down enemy planes
+anzio — site of a major Allied landing in Italy in 1944
+archive — stored collection of records, reports, or war documents
+arkroyal — British aircraft carrier HMS Ark Royal used in WWII
+armistice — agreement to stop fighting (ceasefire)
+armorer — person who maintains and repairs weapons
+artillery — large guns or cannons used for long-range attacks
+artillery — large guns or cannons used for long-range attacks
+asdic — early sonar system used to detect submarines underwater
+assembly — gathering or production of troops or equipment
+atlantic — ocean where major naval battles and U-boat warfare occurred
+atomic — relating to nuclear energy and the atomic bomb
+auth — short for authentication; verifying identity or access
+auxiliary — support units that assist main military forces
+aviation — military flying operations and aircraft use
+axis — Germany, Italy, and Japan alliance in WWII
+azimuth — compass direction or angle used for navigation or targeting
+b17 — American heavy bomber aircraft nicknamed the “Flying Fortress”
+b29 — long-range U.S. bomber that dropped the atomic bombs on Japan
+ballast — heavy material used to stabilise ships or aircraft
+ballistic — relating to the motion of bullets, shells, or missiles
+barbarossa — Germany’s 1941 invasion of the Soviet Union
+barrage — continuous artillery or gunfire attack
+battery — group of artillery guns operated together
+battleship — large, heavily armed warship
+bayonet — blade fixed to a rifle for close combat
+beacon — signal light or radio marker used for navigation
+bearing — compass direction to a target or location
+berlin — capital of Germany and final major WWII battle site
+binary — number system using 0 and 1, used in early computing
+bismarck — powerful German battleship sunk by the British navy
+blackout — turning off lights to avoid enemy bombers spotting cities
+bletchley — Bletchley Park aka Station X, British codebreaking centre
+blinker — signal lamp used to send Morse code messages
+blitz — intense German bombing campaign on Britain
+block — to stop or restrict movement or supplies
+bomb — explosive weapon dropped or planted to cause destruction
+bombardier — crew member responsible for aiming and dropping bombs
+bombe — machine used to break German Enigma codes
+breakthrough — successful push through enemy defenses
+bren — British light machine gun used by infantry
+bridge — structure or ship control area used for command/navigation
+brief — short meeting to give mission instructions
+broadcast — transmit messages by radio
+broadside — firing all guns on one side of a ship at once
+bugle — brass instrument used to signal troops
+bunker — reinforced underground shelter or defensive position
+bunkerbuster — bomb designed to penetrate hardened targets
+c47 — military transport aircraft used for paratroopers and supplies
+calculation — mathematical working used in navigation or codebreaking
+camouflage — hiding equipment or troops using colours or patterns
+canteen — container or place for food and water
+captain — military rank or ship commander
+carbine — short, lightweight rifle
+carrier — aircraft carrier warship that launches planes
+carrierdeck — flat top of a carrier where planes land and take off
+cassino — site of a major battle in Italy (Monte Cassino)
+casualty — person killed or injured in battle
+cemetery — burial place for fallen soldiers
+chainhome — British early radar defense system
+challenge — request to prove identity for security
+channel — English Channel, key invasion route on D-Day
+charge — sudden attack or explosive load
+churchill — British Prime Minister Winston Churchill
+churchilltank — heavy British infantry tank
+cipher — secret code system for encrypting messages
+cipherkey — secret value used to unlock a cipher
+cipherpad — one-time pad sheet used for secure encryption
+ciphertext — encoded message that looks unreadable
+cipherwheel — rotating device used to encode/decode messages
+circuit — electrical pathway used in radios or computers
+clarke — Joan Clarke, Bletchley Park codebreaker and mathematician
+classified — kept secret for security reasons
+code — system of symbols used to hide messages
+codebook — book explaining meanings of codes
+codeword — secret word with special meaning
+colonel — senior army officer rank
+colossus — early British computer used for codebreaking
+column — group of troops or vehicles moving together
+combination — specific sequence used to unlock or encode
+command — authority or control over forces
+compass — device that shows direction
+conning — directing a ship from the control position
+controltower — building that manages aircraft movements
+convention — international agreement about rules of war
+convoy — group of ships or vehicles travelling together for protection
+cook — person preparing food for troops
+corpsman — military medic providing medical aid
+corvette — small warship used to escort convoys
+courier — person delivering secret messages by hand
+coventry — British city heavily bombed during the Blitz
+crew — people operating a vehicle or weapon
+crib — known word/phrase used to help crack codes
+cryptanalysis — studying and breaking secret codes
+d-day — day an invasion or major operation begins (Normandy 1944)
+dailykey — code setting that changes every day
+dakota — British name for the C-47 transport plane
+dash — quick movement or attempt to escape
+deception — misleading the enemy with fake information
+declassified — no longer secret
+decode — convert a coded message back to normal text
+decoding — process of translating code into readable form
+decoy — fake target to distract the enemy
+decrypt — unlock an encrypted message
+defensive — focused on protecting rather than attacking
+depth — vertical distance downward, used in naval combat
+depthcharge — explosive dropped into water to destroy submarines
+destroyer — fast warship designed to protect fleets
+diesel — fuel used by tanks, trucks, and submarines
+dispatch — urgent official message or order
+document — written or recorded information
+dogfight — close aerial battle between fighter planes
+dot — short Morse code signal
+doublecross — turning an enemy spy into a double agent
+dowding — Air Chief Marshal Hugh Dowding, leader of RAF Fighter Command
+downlink — sending signals from aircraft or radio to ground
+drum — round magazine used to hold many bullets
+dummy — fake object used for training or deception
+dunkirk — 1940 evacuation of Allied troops from France
+earpiece — small speaker worn in the ear for radio communication
+eisenhower — Dwight D. Eisenhower, Supreme Allied Commander in Europe
+electromechanical — using both electrical and mechanical parts (like early code machines)
+encirclement — surrounding enemy forces to trap them
+encode — turn a message into secret form
+enfield — British Lee-Enfield military rifle
+engineer — soldier who builds bridges, roads, and defenses
+english — language used by Allied forces like Britain and the US
+enigma — German cipher machine used to encrypt messages
+enterprise — US Navy aircraft carrier in the Pacific War
+escape — getting away from enemy capture
+escort — protect ships or planes during travel
+espionage — spying to gather secret information
+europe — main western theatre of WWII fighting
+evacuation — moving people or troops to safety
+evasion — avoiding capture by the enemy
+factory — building where war supplies and weapons are produced
+fallback — retreat to a safer defensive position
+fatman — atomic bomb dropped on Nagasaki
+fieldhospital — temporary hospital near battle zones
+fieldmedic — soldier trained to give first aid in combat
+firesignal — visual or flare signal to communicate
+firestorm — massive destructive fire after heavy bombing
+flak — anti-aircraft gunfire
+flank — side of an army or formation
+flanker — unit attacking from the side
+flare — bright signal light used at night
+flash — quick burst of light for signaling
+fleet — large group of warships
+flightdeck — top deck of an aircraft carrier where planes operate
+flower — Flower-class corvette escort ship
+fockewulf — German fighter aircraft manufacturer
+forecast — predict weather or events for planning missions
+formation — organised arrangement of troops or aircraft
+fortitude — Allied deception plan before D-Day
+freedom — state of being free from enemy control
+french — relating to France or its resistance forces
+frequency — radio signal channel or wavelength
+frontline — area where active fighting happens
+fuel — energy source for vehicles and aircraft
+galley — kitchen on a ship
+garand — American M1 semi-automatic rifle
+gas — fuel or chemical weapon threat
+general — high-ranking army officer
+geneva — site of conventions setting rules for war conduct
+german — relating to Germany or its forces
+glider — engineless aircraft used to land troops silently
+goebbels — Nazi propaganda minister
+gold — valuable metal sometimes stored or transported for war funds
+greatescape — famous Allied POW prison breakout
+grenade — small handheld explosive weapon
+grenadier — soldier trained to use grenades
+gridref — map grid reference for locations
+gunner — person operating a heavy weapon
+halftrack — vehicle with wheels in front and tracks at back
+handshake — signal or greeting to confirm identity
+hangar — building where aircraft are stored
+headquarters — command centre for planning operations
+headset — headphones with microphone for radio use
+hedgerow — thick bushes used as cover in Normandy fighting
+heliograph — mirror device for sending light signals
+helm — steering position of a ship
+helmet — protective headgear for soldiers
+heritage — history and traditions of a nation
+hideout — secret place for shelter or resistance
+himmler — head of the SS in Nazi Germany
+hirohito — Emperor of Japan during WWII
+hiroshima — Japanese city hit by the first atomic bomb
+history — record of past events
+hitler — leader of Nazi Germany
+homefront — civilian life and work supporting the war effort
+hood — British battlecruiser HMS Hood
+howitzer — type of artillery cannon with high arc fire
+hurricane — British RAF fighter plane (Hawker Hurricane)
+husky — codename for Allied invasion of Sicily
+hut — small building, like codebreaking huts at Bletchley
+industry — factories and production supporting war
+infantry — soldiers who fight on foot
+inflatable — able to be filled with air, sometimes used for decoys
+insignia — badges showing rank or unit
+intelligence — gathered information about the enemy
+intercept — capture enemy communications or aircraft
+italy — country and major WWII battlefront
+jammer — device that blocks radio signals
+jeep — small military utility vehicle
+jet — aircraft powered by jet engines
+joan — Joan Clarke, Bletchley Park codebreaker
+juno — Juno Beach, Canadian D-Day landing site
+key — secret value used to unlock codes
+keycard — card used to access secure areas (modern term)
+keylist — list of cipher keys
+keyring — holder for multiple keys
+keyword — word used to encode or decode a cipher
+khaki — brown-green military uniform colour
+killed — lost life in combat
+kriegsmarine — German navy
+kubelwagen — German light military vehicle
+kursk — site of the largest tank battle in history
+lancaster — British heavy bomber aircraft
+lancer — soldier armed with a lance (older cavalry term)
+language — system of communication used for messages
+lantern — portable light source
+latin — classical language used in codes or mottos
+legacy — lasting impact of war events
+lendlease — US program supplying Allies with equipment
+leningrad — Soviet city under long German siege
+lesson — knowledge learned from experience
+liberty — freedom from control
+lieutenant — junior officer rank
+lineup — arranged formation of people or vehicles
+listener — person monitoring radio signals
+litter — stretcher for carrying wounded soldiers
+littleboy — atomic bomb dropped on Hiroshima
+lockbox — secure storage container
+logic — reasoning used in problem-solving or codebreaking
+logistics — planning and movement of supplies
+logistics — planning and movement of supplies
+london — capital of Britain, heavily bombed in the Blitz
+lookout — person watching for danger
+lorenz — German cipher machine used for high command messages
+luftwaffe — German air force
+macarthur — US General Douglas MacArthur
+machinegun — rapid-fire automatic weapon
+maintenance — repair and upkeep of equipment
+major — mid-level officer rank
+manhattan — Manhattan Project that built the atomic bomb
+mapref — map reference for locating positions
+maquis — French resistance fighters
+marketgarden — Allied airborne operation in the Netherlands
+marshal — very senior military rank
+mask — protective face covering, sometimes gas mask
+matrix — grid arrangement used in coding or math
+me262 — first operational German jet fighter
+medic — soldier who treats the wounded
+medicteam — group providing medical care
+memorial — monument remembering the fallen
+message — communication sent between units
+messenger — person delivering messages
+messerschmitt — German fighter aircraft maker
+messhall — place where soldiers eat
+mg42 — German high-speed machine gun
+midway — decisive Pacific naval battle near Midway Island
+mirror — reflective tool sometimes used for signals
+misdirection — tricking the enemy with false information
+missile — rocket or guided weapon
+missing — unaccounted for in battle
+monitor — observe or track signals or enemies
+monte — relating to Monte Cassino battle
+montgomery — British General Bernard Montgomery
+morale — confidence and spirit of troops
+morse — Morse code communication system
+morsekey — device used to tap Morse signals
+mortar — short-range artillery tube weapon
+mortar — short-range artillery tube weapon
+moscow — capital of the Soviet Union
+mosquito — fast British multi-role aircraft
+mouthpiece — speaking part of a radio or telephone device
+movement — motion of troops or vehicles during operations
+mp40 — German submachine gun used by infantry
+munition — military ammunition or explosives
+museum — place preserving historical artifacts
+mussolini — fascist leader of Italy during WWII
+mustang — American P-51 fighter aircraft
+nagasaki — Japanese city hit by the second atomic bomb
+naval — relating to ships or sea warfare
+navigator — crew member who plans routes and directions
+netting — camouflage mesh used to hide equipment
+newman — Max Newman, Bletchley Park mathematician and codebreaker
+nimitz — US Admiral Chester Nimitz, Pacific fleet commander
+noise — unwanted radio interference or sound
+normandy — French region of the D-Day landings
+nurse — medical caregiver treating the wounded
+observer — person watching and reporting enemy activity
+octane — fuel rating affecting engine performance
+offensive — planned attack against the enemy
+oflag — German prisoner-of-war camp for officers
+omaha — US landing beach on D-Day
+onepad — one-time pad cipher sheet used once for secure codes
+operation — planned military mission
+orders — official commands from leaders
+outpost — small defensive position away from main base
+overlord — codename for the D-Day invasion of Normandy
+pacific — ocean theatre of war between Allies and Japan
+packet — small unit of radio or data transmission
+panzer — German tank or armoured division
+paratrooper — soldier dropped by parachute
+park — Bletchley Park codebreaking centre
+partisan — resistance fighter behind enemy lines
+passcode — secret number or word for access
+patrol — small unit sent to scout or guard
+pattern — repeated arrangement or signal form
+patton — US General George S. Patton
+payload — cargo or bombs carried by aircraft or missile
+peace — absence of war or fighting
+pearlharbor — US naval base attacked by Japan in 1941
+periscope — viewing device used on submarines
+permutation — rearrangement of letters or numbers in codes
+petrol — fuel for vehicles
+phalanx — tight defensive formation of soldiers
+phrase — group of words used in messages or codes
+pilot — person flying an aircraft
+plaintext — readable, unencrypted message
+plug — connector used in radio or electrical systems
+plugboard — Enigma panel used to swap letters for encryption
+plutonium — element used in atomic bombs
+polish — relating to Poland or its forces
+poppy — flower symbol remembering fallen soldiers
+poster — printed notice for information or propaganda
+pow — prisoner of war
+probability — likelihood used in codebreaking or analysis
+production — manufacturing of war equipment
+propaganda — information spread to influence opinions
+quarter — one fourth or military living area
+quartermaster — officer managing supplies and equipment
+radar — system using radio waves to detect objects
+radio — wireless communication device
+radioset — complete radio communication unit
+rally — regrouping point for troops
+rank — position in military hierarchy
+ration — fixed food supply portion
+rationing — controlled distribution of scarce goods
+rearguard — unit protecting troops retreating
+receive — get or pick up signals or messages
+recon — short for reconnaissance, scouting mission
+record — written or stored information
+redcross — humanitarian group aiding wounded soldiers
+reichstag — German parliament building in Berlin
+relay — pass signals from one point to another
+relaybox — device that forwards signals or power
+remembrance — honoring those who served or died
+rendezvous — planned meeting point
+resistance — groups fighting enemy occupation secretly
+response — reply to a signal or message
+retreat — move back from battle
+rifle — long firearm used by soldiers
+rifleman — soldier armed with a rifle
+rocket — self-propelled projectile weapon
+rommel — German Field Marshal Erwin Rommel
+roosevelt — US President Franklin D. Roosevelt
+rotor — rotating part inside Enigma for encryption
+rotors — multiple rotating cipher components
+runner — person delivering messages by hand
+runway — strip where planes take off and land
+sabotage — secretly damaging enemy equipment
+safehouse — hidden place for shelter or meetings
+salvo — simultaneous firing of many weapons
+sapper — combat engineer soldier
+scout — soldier sent to observe ahead
+scramble — quickly launch aircraft or mix signals
+scrambler — device that hides voice communications
+sea — ocean battlefield area
+sealoin — codename for planned German invasion of Britain (Operation Sea Lion)
+searchlight — powerful light used to spot aircraft at night
+secret — kept hidden for security
+semaphore — flag signaling system
+sentry — guard on watch duty
+sergeant — non-commissioned officer rank
+settings — configuration values for machines or codes
+sextant — navigation tool measuring angles to stars
+shell — explosive artillery projectile
+shelter — protective structure or bunker
+sherman — American M4 Sherman tank
+shrapnel — fragments from an exploding shell
+sicily — Mediterranean island invaded by Allies
+signal — message or sign for communication
+signalflag — colored flags used for naval messages
+signalman — soldier trained in communications
+signals — communication systems and messages
+siren — alarm sound warning of danger or air raid
+smg — submachine gun
+smokesignal — smoke used for visual communication
+sonar — underwater detection using sound waves
+sonarping — sound pulse sent to locate submarines
+sortie — single aircraft or ship mission
+spitfire — British RAF fighter plane
+spotter — person locating targets for artillery
+spy — person secretly gathering information
+squadron — group of aircraft or ships
+stalag — German prisoner-of-war camp
+stalin — leader of the Soviet Union during WWII
+stalingrad — major turning-point battle city
+static — radio noise or interference
+station — base or fixed location
+statistics — numerical analysis of data
+sten — British submachine gun
+strategy — long-term plan for winning war
+stretcher — device for carrying injured soldiers
+stukka — German dive-bomber aircraft (Stuka)
+submarine — underwater warship
+supply — provide troops with food or equipment
+surrender — give up fighting
+switch — device to change circuits or settings
+sword — bladed weapon, sometimes ceremonial
+t34 — Soviet medium tank
+tactics — short-term battle methods
+tank — armoured fighting vehicle
+tapper — person operating Morse key signals
+tarmac — paved runway surface
+telegraph — electrical Morse code communication
+teleprinter — machine sending typed messages over wires
+telex — network for sending typed communications
+thompson — American “Tommy Gun” submachine gun
+tiger — German heavy Tiger tank
+tirpitz — German battleship sister to Bismarck
+toggle — switch between states
+token — symbol or code unit
+torch — codename for Allied invasion of North Africa
+torpedo — underwater missile fired at ships
+torpedoes — multiple underwater missiles
+traffic — movement of vehicles or radio messages
+transmission — sending signals or power
+transmit — send a message or signal
+triage — sorting wounded by treatment priority
+trinity — first atomic bomb test
+trumpet — brass instrument for military signals
+tunnel — underground passage
+turing — Alan Turing, codebreaking pioneer
+twopad — two-time pad encryption sheet
+u-boat — German submarine
+ultra — top-secret Allied intelligence from codebreaking
+underground — hidden resistance movement
+uniform — standard military clothing
+unscramble — decode or rearrange into order
+uplink — send signals from ground to aircraft/satellite
+uranium — element used in atomic bombs
+utah — US D-Day landing beach
+v1 — German flying bomb rocket
+v2 — German long-range ballistic missile
+vacuumtube — early electronic component used in radios/computers
+valve — control device for flow or electronics
+vanguard — leading group at the front
+ve — Victory in Europe Day
+vector — direction and speed measurement
+veteran — person who served in the military
+victory — success in battle or war
+victoryship — cargo ship built to supply Allies
+vj — Victory over Japan Day
+waypoint — navigation reference point
+weather — atmospheric conditions affecting missions
+wedge — triangular formation
+wehrmacht — German armed forces
+welchman — Gordon Welchman, Bletchley codebreaker
+wheelhouse — ship’s steering/control area
+whistle — sound device used for signals
+wing — air force unit of several squadrons
+wingman — pilot flying beside a leader for support
+wiretap — secretly listening to communications
+women — women serving in factories, nursing, and support roles
+wounded — injured in battle
+wrens — Women’s Royal Naval Service members
+yamamoto — Japanese Admiral Isoroku Yamamoto
+yamato — massive Japanese battleship

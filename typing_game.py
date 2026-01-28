@@ -4,6 +4,7 @@ import cv2
 from game_process import run_game
 
 
+# ---------- shared UI helpers ----------
 def draw_back_button(screen, WIDTH):
     back_rect = pygame.Rect(20, 20, 120, 45)
     pygame.draw.rect(screen, (150, 90, 40), back_rect, border_radius=10)
@@ -44,14 +45,72 @@ def play_video(screen, clock, path, WIDTH, HEIGHT):
     return last_frame
 
 
+# ---------- NEW: LOGBOOK POPUP ----------
+def logbook_popup(screen, clock, WIDTH, HEIGHT, bg_surface):
+    title_font = pygame.font.SysFont("arial", 44, bold=True)
+    body_font = pygame.font.SysFont("arial", 26)
+    btn_font = pygame.font.SysFont("arial", 28, bold=True)
+
+    box_w, box_h = 760, 330
+    box = pygame.Rect((WIDTH - box_w) // 2, (HEIGHT - box_h) // 2, box_w, box_h)
+
+    open_rect = pygame.Rect(box.x + 70, box.bottom - 85, 220, 60)
+    close_rect = pygame.Rect(box.right - 290, box.bottom - 85, 220, 60)
+
+    while True:
+        clock.tick(60)
+
+        screen.blit(bg_surface, (0, 0))
+
+        overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 170))
+        screen.blit(overlay, (0, 0))
+
+        pygame.draw.rect(screen, (240, 229, 210), box, border_radius=18)
+        pygame.draw.rect(screen, (150, 90, 40), box, 4, border_radius=18)
+
+        screen.blit(title_font.render("LOGBOOK FOUND!", True, (20, 20, 20)), (box.x + 30, box.y + 30))
+
+        lines = [
+            "Dearest Recruit, this is your Logbook!",
+            "It stores clues!",
+            "Do you want to open it now?",
+        ]
+        y = box.y + 115
+        for line in lines:
+            screen.blit(body_font.render(line, True, (35, 35, 35)), (box.x + 30, y))
+            y += 38
+
+        pygame.draw.rect(screen, (150, 90, 40), open_rect, border_radius=12)
+        pygame.draw.rect(screen, (255, 255, 255), open_rect, 2, border_radius=12)
+        open_txt = btn_font.render("OPEN", True, (255, 255, 255))
+        screen.blit(open_txt, open_txt.get_rect(center=open_rect.center))
+
+        pygame.draw.rect(screen, (80, 80, 80), close_rect, border_radius=12)
+        pygame.draw.rect(screen, (255, 255, 255), close_rect, 2, border_radius=12)
+        close_txt = btn_font.render("CLOSE", True, (255, 255, 255))
+        screen.blit(close_txt, close_txt.get_rect(center=close_rect.center))
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return "quit"
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                return "close"
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if open_rect.collidepoint(event.pos):
+                    return "open"
+                if close_rect.collidepoint(event.pos) or (not box.collidepoint(event.pos)):
+                    return "close"
+
+
 def end_video_screen(screen, clock, WIDTH, HEIGHT, video_path, audio_path):
-    # stop menu/background music
     try:
         pygame.mixer.music.stop()
     except Exception:
         pass
 
-    # play end audio once
     end_snd = None
     try:
         end_snd = pygame.mixer.Sound(audio_path)
@@ -59,12 +118,10 @@ def end_video_screen(screen, clock, WIDTH, HEIGHT, video_path, audio_path):
     except Exception:
         end_snd = None
 
-    # play end video
     last_frame = play_video(screen, clock, video_path, WIDTH, HEIGHT)
     if last_frame is None:
         return "quit"
 
-    # button to return to levels
     btn_font = pygame.font.SysFont("arial", 30, bold=True)
     btn_w, btn_h = 200, 60
     btn_x = (WIDTH - btn_w) // 2
@@ -138,23 +195,16 @@ def instructions_screen(screen, clock, WIDTH, HEIGHT):
     continue_button_height = 60
     continue_button_x = WIDTH - continue_button_width - 40
     continue_button_y = HEIGHT - continue_button_height - 40
-    continue_button_rect = pygame.Rect(
-        continue_button_x, continue_button_y, continue_button_width, continue_button_height
-    )
-    # top-right corner hitbox to lead to logbook
+    continue_button_rect = pygame.Rect(continue_button_x, continue_button_y, continue_button_width, continue_button_height)
+
     top_right_rect = pygame.Rect(WIDTH - 250, 20, 200, 200)
 
     while True:
         clock.tick(60)
         screen.blit(instructions_img, (0, 0))
 
-    #gives indication that what the user is hovering over is for the logbook
         mx, my = pygame.mouse.get_pos()
-        if top_right_rect.collidepoint((mx, my)):
-            logbook_hint = hint_font.render("Logbook", True, (255, 255, 255))
-            screen.blit(logbook_hint, (WIDTH - 100, 100))
 
-        # back button (top-left)
         back_rect = draw_back_button(screen, WIDTH)
 
         pygame.draw.rect(screen, (150, 90, 40), continue_button_rect, border_radius=12)
@@ -171,38 +221,250 @@ def instructions_screen(screen, clock, WIDTH, HEIGHT):
                 if back_rect.collidepoint(event.pos):
                     return "back"
                 if top_right_rect.collidepoint(event.pos):
-                    return "logbook"
+                    bg = screen.copy()
+                    pop = logbook_popup(screen, clock, WIDTH, HEIGHT, bg)
+                    if pop == "quit":
+                        return "quit"
+                    if pop == "open":
+                        return "logbook"
+                    continue
                 if continue_button_rect.collidepoint(event.pos):
                     return "next"
 
-def logbook_screen(screen, clock, WIDTH, HEIGHT):
-    logbook_img = pygame.image.load("media/logbook.png").convert()  
-    logbook_img = pygame.transform.scale(logbook_img, (WIDTH, HEIGHT))
-    
+
+def logbook_screen(screen, clock, WIDTH, HEIGHT, return_to="levels"):
+    bg = pygame.image.load("media/logbook.png").convert()
+    bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
+
+    font = pygame.font.SysFont("arial", 26, bold=True)
+    small_font = pygame.font.SysFont("arial", 22, bold=True)
+    title_font = pygame.font.SysFont("arial", 34, bold=True)
+
+    # ---------- LOAD WORD FILE (build a dictionary) ----------
+    # expects lines like: word - definition  (or word: definition)
+    word_map = {}
+    entries = []
+
+    with open("words2.txt", encoding="utf-8") as f:
+        for raw in f:
+            line = raw.strip()
+            if not line:
+                continue
+
+            # try split on " - " first, then ":" as backup
+            if " — " in line:                 # em dash (long dash)
+               w, d = line.split(" — ", 1)
+            elif " - " in line:
+                w, d = line.split(" - ", 1)
+            elif ":" in line:
+                w, d = line.split(":", 1)
+            else:
+                # if the line has no definition format, keep it in list anyway
+                w, d = line, ""
+
+            w_clean = w.strip().lower()
+            d_clean = d.strip()
+
+            entries.append(line)
+            if w_clean and d_clean:
+                word_map[w_clean] = d_clean
+
+    # ---------- paging ----------
+    PER_PAGE = 12
+    page = 0
+    total_pages = (len(entries) - 1) // PER_PAGE + 1 if entries else 1
+
+    # ---------- center panel layout ----------
+    panel_w = 900
+    panel_h = 560
+    panel = pygame.Rect((WIDTH - panel_w) // 2, (HEIGHT - panel_h) // 2, panel_w, panel_h)
+
+    # ---------- SEARCH UI ----------
+    search_rect = pygame.Rect(panel.x + 110, panel.y + 35, panel.w - 220, 48)
+    search_active = False
+    query = ""
+
+    # result overlay state
+    showing_result = False
+    result_word = ""
+    result_def = ""
+    result_not_found = False
+
+    # helper: wrap text to fit width
+    def wrap_text(text, max_width, use_font):
+        words = text.split()
+        lines = []
+        current = ""
+        for w in words:
+            test = (current + " " + w).strip()
+            if use_font.size(test)[0] <= max_width:
+                current = test
+            else:
+                if current:
+                    lines.append(current)
+                current = w
+        if current:
+            lines.append(current)
+        return lines
+
     while True:
         clock.tick(60)
-        screen.blit(logbook_img, (0, 0))
-        
-        # back button
+        screen.blit(bg, (0, 0))
+
         back_rect = draw_back_button(screen, WIDTH)
-        
+
+        # ---------- draw SEARCH BAR ----------
+        # box
+        pygame.draw.rect(screen, (245, 238, 225), search_rect, border_radius=10)
+        pygame.draw.rect(
+            screen,
+            (150, 90, 40) if search_active else (180, 160, 140),
+            search_rect,
+            3,
+            border_radius=10,
+        )
+
+        # label = title_font.render("Search", True, (40, 40, 40))
+        # screen.blit(label, (search_rect.x - 95, search_rect.y + 8))
+
+        # text inside bar
+        shown = query if query else "SEARCH! Type a word and press Enter..."
+        colour = (20, 20, 20) if query else (120, 120, 120)
+        txt = small_font.render(shown, True, colour)
+        screen.blit(txt, (search_rect.x + 12, search_rect.y + 12))
+
+        # ---------- normal page list ----------
+        start = page * PER_PAGE
+        end = start + PER_PAGE
+        visible = entries[start:end]
+
+        y = panel.y + 120
+        for line in visible:
+            t = font.render(line, True, (25, 25, 25))
+            screen.blit(t, t.get_rect(center=(WIDTH // 2, y)))
+            y += 38
+
+        # ---------- page number ----------
+        page_text = small_font.render(f"{page + 1}/{total_pages}", True, (60, 60, 60))
+        screen.blit(page_text, page_text.get_rect(center=(WIDTH // 2, panel.bottom + 25)))
+
+        # ---------- buttons ----------
+
+        prev_rect = pygame.Rect(panel.x + 40, panel.bottom + 3, 90, 45)
+        next_rect = pygame.Rect(panel.right - 160, panel.bottom + 3, 90, 45)
+
+        for rect, label_txt in [(prev_rect, "< Prev"), (next_rect, "Next >")]:
+            pygame.draw.rect(screen, (150, 90, 40), rect, border_radius=10)
+            pygame.draw.rect(screen, (255, 255, 255), rect, 2, border_radius=10)
+            t = small_font.render(label_txt, True, (255, 255, 255))
+            screen.blit(t, t.get_rect(center=rect.center))
+
+        # ---------- RESULT POPUP (on top) ----------
+        if showing_result:
+            overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 160))
+            screen.blit(overlay, (0, 0))
+
+            box_w, box_h = 880, 360
+            box = pygame.Rect((WIDTH - box_w) // 2, (HEIGHT - box_h) // 2, box_w, box_h)
+
+            pygame.draw.rect(screen, (245, 238, 225), box, border_radius=18)
+            pygame.draw.rect(screen, (150, 90, 40), box, 4, border_radius=18)
+
+            if result_not_found:
+                title = title_font.render("Not found", True, (40, 40, 40))
+                screen.blit(title, title.get_rect(center=(WIDTH // 2, box.y + 60)))
+
+                msg = small_font.render("Try a different spelling!", True, (60, 60, 60))
+                screen.blit(msg, msg.get_rect(center=(WIDTH // 2, box.y + 120)))
+            else:
+                title = title_font.render(result_word.upper(), True, (40, 40, 40))
+                screen.blit(title, title.get_rect(center=(WIDTH // 2, box.y + 55)))
+
+                wrapped = wrap_text(result_def, box.w - 80, small_font)
+                y2 = box.y + 120
+                for line in wrapped[:6]:  # keep it neat
+                    line_surf = small_font.render(line, True, (25, 25, 25))
+                    screen.blit(line_surf, line_surf.get_rect(center=(WIDTH // 2, y2)))
+                    y2 += 34
+
+            close_rect = pygame.Rect(box.centerx - 100, box.bottom - 80, 200, 55)
+            pygame.draw.rect(screen, (150, 90, 40), close_rect, border_radius=12)
+            pygame.draw.rect(screen, (255, 255, 255), close_rect, 2, border_radius=12)
+            c = small_font.render("CLOSE", True, (255, 255, 255))
+            screen.blit(c, c.get_rect(center=close_rect.center))
+
         pygame.display.flip()
-        
+
+        # ---------- events ----------
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return "quit"
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if back_rect.collidepoint(event.pos):
-                    return "back"
-                
+                    return return_to
+
+                # if popup showing, only allow closing it
+                if showing_result:
+                    if close_rect.collidepoint(event.pos):
+                        showing_result = False
+                    continue
+
+                # click search bar to focus
+                if search_rect.collidepoint(event.pos):
+                    search_active = True
+                else:
+                    search_active = False
+
+                if prev_rect.collidepoint(event.pos):
+                    page = max(0, page - 1)
+
+                if next_rect.collidepoint(event.pos):
+                    page = min(total_pages - 1, page + 1)
+
+            if event.type == pygame.KEYDOWN:
+                # close popup with ESC
+                if showing_result and event.key == pygame.K_ESCAPE:
+                    showing_result = False
+                    continue
+
+                # typing into search
+                if search_active:
+                    if event.key == pygame.K_RETURN:
+                        q = query.strip().lower()
+                        if q:
+                            if q in word_map:
+                                result_word = q
+                                result_def = word_map[q]
+                                result_not_found = False
+                            else:
+                                result_word = q
+                                result_def = ""
+                                result_not_found = True
+                            showing_result = True
+                        search_active = False
+
+                    elif event.key == pygame.K_BACKSPACE:
+                        query = query[:-1]
+
+                    elif event.key == pygame.K_ESCAPE:
+                        search_active = False
+
+                    else:
+                        if len(event.unicode) == 1:
+                            # allow letters/numbers/hyphen only
+                            ch = event.unicode
+                            if ch.isalnum() or ch in "-":
+                                query += ch
+
+
 def level_select(screen, clock, WIDTH, HEIGHT):
     levels_img = pygame.image.load("media/levels.png").convert()
     levels_img = pygame.transform.scale(levels_img, (WIDTH, HEIGHT))
 
-    # top-right corner hitbox to lead to logbook
     top_right_rect = pygame.Rect(WIDTH - 250, 20, 200, 200)
 
-    # clickable hitboxes 
     y_circle = int(HEIGHT * 0.36)
     radius = int(min(WIDTH, HEIGHT) * 0.15)
 
@@ -220,10 +482,9 @@ def level_select(screen, clock, WIDTH, HEIGHT):
     while True:
         clock.tick(60)
         screen.blit(levels_img, (0, 0))
-        # back button
+
         back_rect = draw_back_button(screen, WIDTH)
 
-        # hover hint
         mx, my = pygame.mouse.get_pos()
         hint = None
         if clicked_circle((mx, my), easy_center, radius):
@@ -236,10 +497,6 @@ def level_select(screen, clock, WIDTH, HEIGHT):
         if hint:
             tip = hint_font.render(f"Click: {hint}", True, (255, 255, 255))
             screen.blit(tip, (160, 28))
-        
-        if top_right_rect.collidepoint((mx, my)):
-                logbook_hint = hint_font.render("Logbook", True, (255, 255, 255))
-                screen.blit(logbook_hint, (WIDTH - 100, 100))
 
         pygame.display.flip()
 
@@ -249,9 +506,17 @@ def level_select(screen, clock, WIDTH, HEIGHT):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if back_rect.collidepoint(event.pos):
                     return "back"
-                pos = event.pos
+
                 if top_right_rect.collidepoint(event.pos):
-                    return "logbook"
+                    bg = screen.copy()
+                    pop = logbook_popup(screen, clock, WIDTH, HEIGHT, bg)
+                    if pop == "quit":
+                        return "quit"
+                    if pop == "open":
+                        return "logbook"
+                    continue
+
+                pos = event.pos
                 if clicked_circle(pos, easy_center, radius):
                     return "easy"
                 if clicked_circle(pos, medium_center, radius):
@@ -265,7 +530,6 @@ def main():
     pygame.init()
     pygame.mixer.init()
 
-    # background music
     try:
         pygame.mixer.music.load("sound/intro_music.mp3")
         pygame.mixer.music.set_volume(0.25)
@@ -283,7 +547,7 @@ def main():
 
     fail_vid = "media/fail_screen.mp4"
     fail_audio = "sound/fail_sound.mp3"
-    
+
     success_vid = "media/level_complete.mp4"
     success_audio = "sound/success_sound.mp3"
 
@@ -297,7 +561,6 @@ def main():
         if choice == "quit":
             break
 
-        # play your second video 
         end_frame = play_video(screen, clock, outro_vid, WIDTH, HEIGHT)
         if end_frame is None:
             break
@@ -305,9 +568,13 @@ def main():
         ins = instructions_screen(screen, clock, WIDTH, HEIGHT)
         if ins == "quit":
             break
+
         if ins == "logbook":
-            logbook_screen(screen, clock, WIDTH, HEIGHT)
-            continue
+            lb = logbook_screen(screen, clock, WIDTH, HEIGHT, return_to="levels")
+            if lb == "quit":
+                break
+            ins = "next"
+
         if ins == "back":
             continue
 
@@ -322,13 +589,14 @@ def main():
                     pygame.quit()
                     return
                 if ins2 == "back":
-                    # back to begin screen
-                    break  # break out to BEGIN
-                # if next, go back to level select again
-                continue       
-            
-            if diff == "logbook": 
-                logbook_screen(screen, clock, WIDTH, HEIGHT)
+                    break
+                continue
+
+            if diff == "logbook":
+                lb2 = logbook_screen(screen, clock, WIDTH, HEIGHT)
+                if lb2 == "quit":
+                    pygame.quit()
+                    return
                 continue
 
             result = run_game(diff)  # "back" | "quit" | "game_over" | "level_complete"
@@ -338,7 +606,6 @@ def main():
                 return
 
             if result == "back":
-                # back to level select
                 continue
 
             if result == "game_over":
@@ -346,18 +613,14 @@ def main():
                 if end == "quit":
                     pygame.quit()
                     return
-                # end == "levels" -> show level select again
                 continue
-            
+
             if result == "level_complete":
                 end = end_video_screen(screen, clock, WIDTH, HEIGHT, success_vid, success_audio)
                 if end == "quit":
                     pygame.quit()
                     return
-                # end == "levels" -> show level select again
                 continue
-
-        # if we broke out, it returns to BEGIN loop
 
     pygame.quit()
 

@@ -58,9 +58,9 @@ wrong = safe_sound("sound/error.mp3", 0.25)
 
 # ---------- difficulty ----------
 DIFFICULTY_RULES = {
-    "easy":   {"lives": 3, "timer_seconds": 60, "speed_range": (2, 4),   "len_filter": (1, 5)},
-    "medium": {"lives": 2, "timer_seconds": 60, "speed_range": (3, 5),   "len_filter": None},
-    "hard":   {"lives": 1, "timer_seconds": 60, "speed_range": (4.5, 6.5),"len_filter": None},
+    "easy":   {"lives": 3, "timer_seconds": 60, "speed_range": (1, 3),   "len_filter": (1, 5)},
+    "medium": {"lives": 3, "timer_seconds": 60, "speed_range": (2, 4),   "len_filter": None},
+    "hard":   {"lives": 3, "timer_seconds": 60, "speed_range": (2, 5),"len_filter": None},
 }
 
 def filter_words_by_length(bounds):
@@ -78,7 +78,7 @@ class Word:
         self.x = x
 
     def draw(self, active_string):
-        screen.blit(word_font.render(self.text, True, TEXT_LIGHT), (self.x, self.y))
+        screen.blit(word_font.render(self.text, True, (150,90,40)), (self.x, self.y))
         typed_len = len(active_string)
         if active_string == self.text[:typed_len]:
             screen.blit(word_font.render(active_string, True, ACCENT), (self.x, self.y))
@@ -88,7 +88,6 @@ class Word:
 
 # ---------- UI drawing ----------
 def draw_pause_button():
-    # ✅ physical clickable pause button TOP-LEFT
     rect = pygame.Rect(20, 20, 55, 45)
     pygame.draw.rect(screen, (150, 90, 40), rect, border_radius=10)
     pygame.draw.rect(screen, (255, 255, 255), rect, 2, border_radius=10)
@@ -269,11 +268,18 @@ def run_game(difficulty="easy"):
                     if wrong:
                         wrong.play()
                 
-                
-        # ✅ game over -> let typing_game.py play video/audio screen
-        if lives < 0 or time_left <= 0:
+		# ---------- END CONDITIONS ----------
+        if lives < 0:
             check_high_score(score, difficulty)
-            return "game_over"
+            return "game_over"      # player failed
+
+        if time_left <= 0:
+            check_high_score(score, difficulty)
+
+            if score > 0:
+                return "level_complete"   # player survived → success
+            else:
+                return "game_over"
         
         if time_left <= 0:
             check_high_score(score, difficulty)
