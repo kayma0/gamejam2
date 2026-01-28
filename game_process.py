@@ -48,6 +48,7 @@ def safe_sound(path, volume=0.25):
     try:
         s = pygame.mixer.Sound(path)
         s.set_volume(volume)
+        s.play(-1)
         return s
     except Exception:
         return None
