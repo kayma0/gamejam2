@@ -268,10 +268,18 @@ def run_game(difficulty="easy"):
                     if wrong:
                         wrong.play()
                 
-                
-        if lives < 0 or time_left <= 0:
+		# ---------- END CONDITIONS ----------
+        if lives < 0:
             check_high_score(score, difficulty)
-            return "game_over"
+            return "game_over"      # player failed
+
+        if time_left <= 0:
+            check_high_score(score, difficulty)
+
+            if score > 0:
+                return "level_complete"   # player survived → success
+            else:
+                return "game_over"
         
         if time_left <= 0:
             check_high_score(score, difficulty)
