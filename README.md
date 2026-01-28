@@ -6,6 +6,9 @@ In this game you type letters and numbers to match moving words on screen and th
 
 The code is split into two main Python files. One file manages the screens of the game and it starts the typing part once a difficulty has been chosen. The other file manages the actual game which means updating moving word objects, handling the number of lives, timer, score and pause menu.
 
+AI Assistance.
+ChatGPT was used to help generate the WW2 themed word list used in the typing game and to create short, one-line historical definitions for each word displayed in the in-game logbook.
+
 References
 Typing game and input
 https://github.com/plemaster01/PythonTypingRacer/blob/main/typingRacer.py#L28
