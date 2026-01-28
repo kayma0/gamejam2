@@ -204,9 +204,6 @@ def instructions_screen(screen, clock, WIDTH, HEIGHT):
         screen.blit(instructions_img, (0, 0))
 
         mx, my = pygame.mouse.get_pos()
-        # if top_right_rect.collidepoint((mx, my)):
-        #     logbook_hint = hint_font.render("Logbook", True, (255, 255, 255))
-        #     screen.blit(logbook_hint, (WIDTH - 140, 105))
 
         back_rect = draw_back_button(screen, WIDTH)
 
@@ -236,23 +233,230 @@ def instructions_screen(screen, clock, WIDTH, HEIGHT):
 
 
 def logbook_screen(screen, clock, WIDTH, HEIGHT, return_to="levels"):
-    logbook_img = pygame.image.load("media/logbook.png").convert()
-    logbook_img = pygame.transform.scale(logbook_img, (WIDTH, HEIGHT))
+    bg = pygame.image.load("media/logbook.png").convert()
+    bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
+
+    font = pygame.font.SysFont("arial", 26, bold=True)
+    small_font = pygame.font.SysFont("arial", 22, bold=True)
+    title_font = pygame.font.SysFont("arial", 34, bold=True)
+
+    # ---------- LOAD WORD FILE (build a dictionary) ----------
+    # expects lines like: word - definition  (or word: definition)
+    word_map = {}
+    entries = []
+
+    with open("words2.txt", encoding="utf-8") as f:
+        for raw in f:
+            line = raw.strip()
+            if not line:
+                continue
+
+            # try split on " - " first, then ":" as backup
+            if " — " in line:                 # em dash (long dash)
+               w, d = line.split(" — ", 1)
+            elif " - " in line:
+                w, d = line.split(" - ", 1)
+            elif ":" in line:
+                w, d = line.split(":", 1)
+            else:
+                # if the line has no definition format, keep it in list anyway
+                w, d = line, ""
+
+            w_clean = w.strip().lower()
+            d_clean = d.strip()
+
+            entries.append(line)
+            if w_clean and d_clean:
+                word_map[w_clean] = d_clean
+
+    # ---------- paging ----------
+    PER_PAGE = 12
+    page = 0
+    total_pages = (len(entries) - 1) // PER_PAGE + 1 if entries else 1
+
+    # ---------- center panel layout ----------
+    panel_w = 900
+    panel_h = 560
+    panel = pygame.Rect((WIDTH - panel_w) // 2, (HEIGHT - panel_h) // 2, panel_w, panel_h)
+
+    # ---------- SEARCH UI ----------
+    search_rect = pygame.Rect(panel.x + 110, panel.y + 35, panel.w - 220, 48)
+    search_active = False
+    query = ""
+
+    # result overlay state
+    showing_result = False
+    result_word = ""
+    result_def = ""
+    result_not_found = False
+
+    # helper: wrap text to fit width
+    def wrap_text(text, max_width, use_font):
+        words = text.split()
+        lines = []
+        current = ""
+        for w in words:
+            test = (current + " " + w).strip()
+            if use_font.size(test)[0] <= max_width:
+                current = test
+            else:
+                if current:
+                    lines.append(current)
+                current = w
+        if current:
+            lines.append(current)
+        return lines
 
     while True:
         clock.tick(60)
-        screen.blit(logbook_img, (0, 0))
+        screen.blit(bg, (0, 0))
 
         back_rect = draw_back_button(screen, WIDTH)
 
+        # ---------- draw SEARCH BAR ----------
+        # box
+        pygame.draw.rect(screen, (245, 238, 225), search_rect, border_radius=10)
+        pygame.draw.rect(
+            screen,
+            (150, 90, 40) if search_active else (180, 160, 140),
+            search_rect,
+            3,
+            border_radius=10,
+        )
+
+        # label = title_font.render("Search", True, (40, 40, 40))
+        # screen.blit(label, (search_rect.x - 95, search_rect.y + 8))
+
+        # text inside bar
+        shown = query if query else "SEARCH! Type a word and press Enter..."
+        colour = (20, 20, 20) if query else (120, 120, 120)
+        txt = small_font.render(shown, True, colour)
+        screen.blit(txt, (search_rect.x + 12, search_rect.y + 12))
+
+        # ---------- normal page list ----------
+        start = page * PER_PAGE
+        end = start + PER_PAGE
+        visible = entries[start:end]
+
+        y = panel.y + 120
+        for line in visible:
+            t = font.render(line, True, (25, 25, 25))
+            screen.blit(t, t.get_rect(center=(WIDTH // 2, y)))
+            y += 38
+
+        # ---------- page number ----------
+        page_text = small_font.render(f"{page + 1}/{total_pages}", True, (60, 60, 60))
+        screen.blit(page_text, page_text.get_rect(center=(WIDTH // 2, panel.bottom + 25)))
+
+        # ---------- buttons ----------
+
+        prev_rect = pygame.Rect(panel.x + 40, panel.bottom + 3, 90, 45)
+        next_rect = pygame.Rect(panel.right - 160, panel.bottom + 3, 90, 45)
+
+        for rect, label_txt in [(prev_rect, "< Prev"), (next_rect, "Next >")]:
+            pygame.draw.rect(screen, (150, 90, 40), rect, border_radius=10)
+            pygame.draw.rect(screen, (255, 255, 255), rect, 2, border_radius=10)
+            t = small_font.render(label_txt, True, (255, 255, 255))
+            screen.blit(t, t.get_rect(center=rect.center))
+
+        # ---------- RESULT POPUP (on top) ----------
+        if showing_result:
+            overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 160))
+            screen.blit(overlay, (0, 0))
+
+            box_w, box_h = 880, 360
+            box = pygame.Rect((WIDTH - box_w) // 2, (HEIGHT - box_h) // 2, box_w, box_h)
+
+            pygame.draw.rect(screen, (245, 238, 225), box, border_radius=18)
+            pygame.draw.rect(screen, (150, 90, 40), box, 4, border_radius=18)
+
+            if result_not_found:
+                title = title_font.render("Not found", True, (40, 40, 40))
+                screen.blit(title, title.get_rect(center=(WIDTH // 2, box.y + 60)))
+
+                msg = small_font.render("Try a different spelling!", True, (60, 60, 60))
+                screen.blit(msg, msg.get_rect(center=(WIDTH // 2, box.y + 120)))
+            else:
+                title = title_font.render(result_word.upper(), True, (40, 40, 40))
+                screen.blit(title, title.get_rect(center=(WIDTH // 2, box.y + 55)))
+
+                wrapped = wrap_text(result_def, box.w - 80, small_font)
+                y2 = box.y + 120
+                for line in wrapped[:6]:  # keep it neat
+                    line_surf = small_font.render(line, True, (25, 25, 25))
+                    screen.blit(line_surf, line_surf.get_rect(center=(WIDTH // 2, y2)))
+                    y2 += 34
+
+            close_rect = pygame.Rect(box.centerx - 100, box.bottom - 80, 200, 55)
+            pygame.draw.rect(screen, (150, 90, 40), close_rect, border_radius=12)
+            pygame.draw.rect(screen, (255, 255, 255), close_rect, 2, border_radius=12)
+            c = small_font.render("CLOSE", True, (255, 255, 255))
+            screen.blit(c, c.get_rect(center=close_rect.center))
+
         pygame.display.flip()
 
+        # ---------- events ----------
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return "quit"
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 if back_rect.collidepoint(event.pos):
                     return return_to
+
+                # if popup showing, only allow closing it
+                if showing_result:
+                    if close_rect.collidepoint(event.pos):
+                        showing_result = False
+                    continue
+
+                # click search bar to focus
+                if search_rect.collidepoint(event.pos):
+                    search_active = True
+                else:
+                    search_active = False
+
+                if prev_rect.collidepoint(event.pos):
+                    page = max(0, page - 1)
+
+                if next_rect.collidepoint(event.pos):
+                    page = min(total_pages - 1, page + 1)
+
+            if event.type == pygame.KEYDOWN:
+                # close popup with ESC
+                if showing_result and event.key == pygame.K_ESCAPE:
+                    showing_result = False
+                    continue
+
+                # typing into search
+                if search_active:
+                    if event.key == pygame.K_RETURN:
+                        q = query.strip().lower()
+                        if q:
+                            if q in word_map:
+                                result_word = q
+                                result_def = word_map[q]
+                                result_not_found = False
+                            else:
+                                result_word = q
+                                result_def = ""
+                                result_not_found = True
+                            showing_result = True
+                        search_active = False
+
+                    elif event.key == pygame.K_BACKSPACE:
+                        query = query[:-1]
+
+                    elif event.key == pygame.K_ESCAPE:
+                        search_active = False
+
+                    else:
+                        if len(event.unicode) == 1:
+                            # allow letters/numbers/hyphen only
+                            ch = event.unicode
+                            if ch.isalnum() or ch in "-":
+                                query += ch
 
 
 def level_select(screen, clock, WIDTH, HEIGHT):
@@ -293,10 +497,6 @@ def level_select(screen, clock, WIDTH, HEIGHT):
         if hint:
             tip = hint_font.render(f"Click: {hint}", True, (255, 255, 255))
             screen.blit(tip, (160, 28))
-
-        # if top_right_rect.collidepoint((mx, my)):
-        #     logbook_hint = hint_font.render("Logbook", True, (255, 255, 255))
-        #     screen.blit(logbook_hint, (WIDTH - 140, 105))
 
         pygame.display.flip()
 
@@ -368,11 +568,13 @@ def main():
         ins = instructions_screen(screen, clock, WIDTH, HEIGHT)
         if ins == "quit":
             break
+
         if ins == "logbook":
-            lb = logbook_screen(screen, clock, WIDTH, HEIGHT)
+            lb = logbook_screen(screen, clock, WIDTH, HEIGHT, return_to="levels")
             if lb == "quit":
                 break
-            continue
+            ins = "next"
+
         if ins == "back":
             continue
 
